@@ -1,5 +1,4 @@
 import { Suspense } from "react"
-import RedesignedHero from "@/components/redesigned-hero"
 import AboutSection from "@/components/about-section"
 import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedSkills from "@/components/redesigned-skills"
@@ -29,12 +28,6 @@ export default function Home() {
     <main className="min-h-screen bg-background pt-16">
       <ScrollProgress />
       <FloatingNav />
-
-      <ErrorBoundary fallback={<SectionFallback title="Hero" />}>
-        <Suspense fallback={<LoadingSection name="Hero" />}>
-          <RedesignedHero />
-        </Suspense>
-      </ErrorBoundary>
 
       <ErrorBoundary fallback={<SectionFallback title="About" />}>
         <Suspense fallback={<LoadingSection name="About" />}>
