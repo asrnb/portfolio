@@ -5,7 +5,7 @@ import WorkWithMeForm from "@/components/work-with-me-form"
 
 export const metadata: Metadata = {
   title: "Work with me | April Suarnaba",
-  description: "Send a project or collaboration inquiry to April Suarnaba.",
+  description: "Hire April Suarnaba for AI automation, dashboards, CRM workflows, and full-stack web projects.",
 }
 
 export default function WorkWithMePage() {

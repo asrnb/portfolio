@@ -4,7 +4,7 @@ import { useState } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { CheckCircle2, Mail, Send } from "lucide-react"
+import { Bot, CheckCircle2, LayoutDashboard, Mail, Send, Workflow } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -64,10 +64,30 @@ export default function WorkWithMeForm() {
             <Mail className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-normal">Work with me</h1>
+            <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-primary">Available for work</p>
+            <h1 className="text-3xl font-bold tracking-normal">Hire me for your next build</h1>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Tell me about your project, automation idea, dashboard, AI workflow, or collaboration.
+              I can help turn business problems into practical systems: AI automations, dashboards, CRM workflows,
+              API integrations, and full-stack web tools.
             </p>
+          </div>
+        </div>
+
+        <div className="mb-7 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
+            <Bot className="mb-2 h-4 w-4 text-primary" />
+            <p className="text-sm font-medium">AI automation</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">Agents, prompts, voice AI, and workflows.</p>
+          </div>
+          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
+            <LayoutDashboard className="mb-2 h-4 w-4 text-primary" />
+            <p className="text-sm font-medium">Dashboards</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">Useful interfaces for business data.</p>
+          </div>
+          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
+            <Workflow className="mb-2 h-4 w-4 text-primary" />
+            <p className="text-sm font-medium">CRM workflows</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">HubSpot, APIs, and operations tooling.</p>
           </div>
         </div>
 
@@ -91,7 +111,7 @@ export default function WorkWithMeForm() {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" {...field} />
+                        <Input placeholder="Your name or company" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -118,9 +138,9 @@ export default function WorkWithMeForm() {
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Subject</FormLabel>
+                    <FormLabel>What do you need help with?</FormLabel>
                     <FormControl>
-                      <Input placeholder="AI dashboard, automation, website, or collaboration" {...field} />
+                      <Input placeholder="AI automation, dashboard, website, CRM workflow..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,10 +152,10 @@ export default function WorkWithMeForm() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message</FormLabel>
+                    <FormLabel>Project details</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Share the goal, timeline, tools, or anything useful."
+                        placeholder="Tell me what you want to build, your timeline, budget range, current tools, and what success should look like."
                         className="min-h-36 resize-none"
                         {...field}
                       />
@@ -152,7 +172,7 @@ export default function WorkWithMeForm() {
               )}
 
               <Button type="submit" className="w-full gap-2" disabled={status === "sending"}>
-                {status === "sending" ? "Sending..." : "Send message"}
+                {status === "sending" ? "Sending..." : "Start a project conversation"}
                 <Send className="h-4 w-4" />
               </Button>
             </form>
