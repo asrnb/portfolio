@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import ResponsiveHeader from "@/components/responsive-header"
 
 export const metadata: Metadata = {
-  title: "April Suarnaba | Software Engineer",
+  title: "April Suarnaba | AI Engineer",
   description:
     "Portfolio of April Suarnaba, a software developer focused on AI-powered dashboards, automation workflows, API integrations, and full-stack web applications.",
 }
