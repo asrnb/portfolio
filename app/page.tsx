@@ -5,7 +5,7 @@ import RedesignedSkills from "@/components/redesigned-skills"
 import RedesignedProjects from "@/components/redesigned-projects"
 import Education from "@/components/education"
 import ContactForm from "@/components/contact-form"
-import EnhancedFooter from "@/components/enhanced-footer"
+import Footer from "@/components/footer"
 import FloatingNav from "@/components/floating-nav"
 import ScrollProgress from "@/components/scroll-progress"
 import { ErrorBoundary } from "@/components/error-boundary"
@@ -71,7 +71,7 @@ export default function Home() {
         </Suspense>
       </ErrorBoundary>
 
-      <EnhancedFooter />
+      <Footer />
     </main>
   )
 }
