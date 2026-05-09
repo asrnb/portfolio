@@ -116,9 +116,10 @@ export default function AboutSection() {
                 dashboards, CRM automations, API integrations, and full-stack web applications.
               </p>
               <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
-                I enjoy turning real business workflows into clear, usable systems. Recently, I have worked
-                with HubSpot custom code, LinkedIn automation workflows, Vapi voice AI testing, OpenAI
-                integrations, and computer vision projects using YOLOv8 and OpenCV.
+                I enjoy turning real business workflows into clear, usable systems. My current work has
+                evolved around utilizing AI agents and coding assistants such as Claude Code, Codex, and
+                similar tools, alongside HubSpot custom code, LinkedIn automation workflows, Vapi voice AI
+                testing, OpenAI integrations, and computer vision projects using YOLOv8 and OpenCV.
               </p>
             </div>
           </StaggerItem>
