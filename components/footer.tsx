@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0">
             <div className="font-bold text-xl">April Suarnaba</div>
-            <div className="text-muted-foreground">Software Engineer</div>
+            <div className="text-muted-foreground">AI Engineer</div>
           </div>
 
           <div className="flex gap-4">

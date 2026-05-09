@@ -73,7 +73,7 @@ export default function EnhancedFooter() {
             >
               <div className="font-bold text-xl mb-4">April Suarnaba</div>
               <p className="text-muted-foreground mb-6">
-                Software Engineer
+                AI Engineer
               </p>
 
               <div className="flex gap-3">

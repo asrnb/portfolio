@@ -102,7 +102,7 @@ export default function RedesignedHero() {
         <div className="order-2 md:order-1 text-center md:text-left">
           <ScrollReveal>
             <Badge className="mb-4 px-3 py-1.5 text-sm bg-primary/20 border-primary/30 text-primary">
-              Software Engineer
+              AI Engineer
             </Badge>
           </ScrollReveal>
 
