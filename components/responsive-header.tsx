@@ -27,12 +27,8 @@ export default function ResponsiveHeader() {
   }, [])
 
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/#about" },
-    { name: "Tech Stack", href: "/#skills" },
-    { name: "Education", href: "/#education" },
-    { name: "Work", href: "/work" },
-    { name: "Projects", href: "/work#projects" },
+    { name: "Home Page", href: "/" },
+    { name: "Experience", href: "/work" },
   ]
 
   // If not mounted yet, render a simpler version to avoid hydration issues

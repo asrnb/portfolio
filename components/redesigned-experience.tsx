@@ -7,7 +7,6 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { ErrorBoundary } from "@/components/error-boundary"
 import {
@@ -18,7 +17,6 @@ import {
   ChevronDown,
   Award,
   Briefcase,
-  GraduationCap,
   Users,
   Target,
 } from "lucide-react"
@@ -93,100 +91,25 @@ const experiences = [
     ],
     color: "from-blue-600 to-cyan-600",
   },
-  {
-    id: "thesis",
-    title: "Front-End Developer",
-    company: "Thesis Project, West Visayas State University",
-    location: "Iloilo City, Philippines",
-    period: "2023 - 2025",
-    type: "education",
-    description:
-      "Designed the UI/UX and helped lead ideation for a computer vision dress code compliance system.",
-    responsibilities: [
-      "Designed intuitive UI/UX flows for the thesis application",
-      "Led ideation and topic selection with practical objectives",
-      "Contributed to a computer vision system using YOLOv8, OpenCV, Flask, and SQLite",
-      "Aligned the project around campus dress code compliance workflows",
-    ],
-    skills: ["Figma", "UI/UX", "Python", "Flask", "YOLOv8", "OpenCV"],
-    metrics: [
-      { value: "CV", label: "System" },
-      { value: "UI", label: "Design" },
-      { value: "WVSU", label: "Thesis" },
-    ],
-    color: "from-amber-600 to-orange-600",
-  },
 ]
 
 export default function RedesignedExperience() {
   const [expandedExperience, setExpandedExperience] = useState<string | null>(null)
-  const [experienceType, setExperienceType] = useState<"all" | "work" | "education">("all")
 
   const toggleExpand = (id: string) => {
     setExpandedExperience(expandedExperience === id ? null : id)
   }
 
-  // Filter experiences based on type
-  const filteredExperiences =
-    experienceType === "all" ? experiences : experiences.filter((exp) => exp.type === experienceType)
-
   return (
     <SectionContainer id="experience" className="bg-gradient-to-b from-background/95 to-background">
       <SectionHeader
         title="Professional Journey"
-        subtitle="Experience across AI automation, CRM workflows, full-stack development, UI/UX design, and technical support."
+        subtitle="Work experience across AI automation, CRM workflows, full-stack development, design support, and technical operations."
       />
 
       <ScrollReveal>
-        <Tabs
-          defaultValue="all"
-          onValueChange={(value) => setExperienceType(value as "all" | "work" | "education")}
-          className="w-full"
-        >
-          <div className="overflow-x-auto pb-2 no-scrollbar">
-            <TabsList className="flex justify-center gap-2 mb-8 bg-transparent w-fit mx-auto">
-              <TabsTrigger
-                value="all"
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all data-[state=active]:shadow-lg",
-                  experienceType === "all" ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80",
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <span>All Experience</span>
-                </div>
-              </TabsTrigger>
-
-              <TabsTrigger
-                value="work"
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all data-[state=active]:shadow-lg",
-                  experienceType === "work" ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80",
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <Briefcase className="h-4 w-4" />
-                  <span>Work Experience</span>
-                </div>
-              </TabsTrigger>
-
-              <TabsTrigger
-                value="education"
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all data-[state=active]:shadow-lg",
-                  experienceType === "education" ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80",
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  <GraduationCap className="h-4 w-4" />
-                  <span>Education</span>
-                </div>
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
           <div className="space-y-6">
-            {filteredExperiences.map((experience, index) => (
+            {experiences.map((experience, index) => (
               <ErrorBoundary key={experience.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -207,19 +130,10 @@ export default function RedesignedExperience() {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                           <div>
                             <Badge
-                              className={cn(
-                                "mb-2 px-3 py-1",
-                                experience.type === "work"
-                                  ? "bg-blue-500/20 text-blue-500 border-blue-500/30"
-                                  : "bg-amber-500/20 text-amber-500 border-amber-500/30",
-                              )}
+                              className="mb-2 border-blue-500/30 bg-blue-500/20 px-3 py-1 text-blue-500"
                             >
-                              {experience.type === "work" ? (
-                                <Briefcase className="h-3 w-3 mr-1" />
-                              ) : (
-                                <GraduationCap className="h-3 w-3 mr-1" />
-                              )}
-                              {experience.type === "work" ? "Work Experience" : "Education"}
+                              <Briefcase className="mr-1 h-3 w-3" />
+                              Work Experience
                             </Badge>
                             <h3 className="text-xl font-semibold flex items-center gap-2">
                               {experience.title}
@@ -311,21 +225,11 @@ export default function RedesignedExperience() {
                                     ))}
                                   </div>
 
-                                  {experience.type === "work" && (
-                                    <div className="mt-4">
-                                      <Button variant="outline" className="w-full">
-                                        View Reference Letter
-                                      </Button>
-                                    </div>
-                                  )}
-
-                                  {experience.type === "education" && (
-                                    <div className="mt-4">
-                                      <Button variant="outline" className="w-full">
-                                        View Transcript
-                                      </Button>
-                                    </div>
-                                  )}
+                                  <div className="mt-4">
+                                    <Button variant="outline" className="w-full">
+                                      View Reference Letter
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -338,7 +242,6 @@ export default function RedesignedExperience() {
               </ErrorBoundary>
             ))}
           </div>
-        </Tabs>
       </ScrollReveal>
     </SectionContainer>
   )
