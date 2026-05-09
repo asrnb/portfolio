@@ -12,18 +12,6 @@ export interface ExtendedThemeProviderProps extends ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, ...props }: ExtendedThemeProviderProps) {
-  const [mounted, setMounted] = React.useState(false)
-
-  // useEffect only runs on the client, so we can safely show the UI
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return <div style={{ visibility: "hidden" }}>{children}</div>
-  }
-
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }
 
