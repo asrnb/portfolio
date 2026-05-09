@@ -359,13 +359,13 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-33.333%);
+    transform: translateX(-50%);
   }
 }
 
 @keyframes techMarqueeReverse {
   from {
-    transform: translateX(-33.333%);
+    transform: translateX(-50%);
   }
   to {
     transform: translateX(0);
