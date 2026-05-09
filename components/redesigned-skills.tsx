@@ -4,7 +4,7 @@ import type { ElementType } from "react"
 import { Bot, Code2, Database, PanelsTopLeft, PenTool, Workflow } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
-import { ScrollReveal, StaggeredContainer, StaggerItem } from "@/components/ui/scroll-reveal"
+import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { cn } from "@/lib/utils"
 
 interface TechItem {
@@ -103,6 +103,63 @@ function iconUrl({ slug, color = "ffffff" }: TechItem) {
   return `https://cdn.simpleicons.org/${slug}/${color}`
 }
 
+function TechLogo({ item }: { item: TechItem }) {
+  return (
+    <div
+      className={cn(
+        "group flex min-w-[132px] items-center gap-3 rounded-lg border border-border/60 bg-background/70 px-4 py-3",
+        "transition-colors hover:border-primary/40 hover:bg-primary/5",
+      )}
+    >
+      <img
+        src={iconUrl(item)}
+        alt={`${item.name} logo`}
+        className="h-8 w-8 shrink-0 object-contain transition-transform group-hover:scale-110"
+        loading="lazy"
+      />
+      <span className="text-sm font-medium">{item.name}</span>
+    </div>
+  )
+}
+
+function TechMarquee({ group, reverse = false }: { group: TechGroup; reverse?: boolean }) {
+  const Icon = group.icon
+  const rowItems = [...group.items, ...group.items, ...group.items]
+
+  return (
+    <Card className="overflow-hidden border-border/70 bg-card/70">
+      <CardContent className="p-0">
+        <div className="flex flex-col gap-4 border-b border-border/70 p-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="font-semibold">{group.title}</h3>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">{group.description}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative overflow-hidden py-5">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-card to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-card to-transparent" />
+          <div
+            className={cn(
+              "flex w-max gap-3 px-5 motion-reduce:animate-none",
+              reverse ? "animate-tech-marquee-reverse" : "animate-tech-marquee",
+            )}
+          >
+            {rowItems.map((item, index) => (
+              <TechLogo key={`${group.title}-${item.name}-${index}`} item={item} />
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function RedesignedSkills() {
   return (
     <SectionContainer id="skills" className="bg-gradient-to-b from-background to-background/95">
@@ -112,49 +169,11 @@ export default function RedesignedSkills() {
       />
 
       <ScrollReveal>
-        <StaggeredContainer className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {techGroups.map((group) => {
-            const Icon = group.icon
-
-            return (
-              <StaggerItem key={group.title}>
-                <Card className="h-full border-border/70 bg-card/70 transition-colors hover:border-primary/40">
-                  <CardContent className="p-5">
-                    <div className="mb-5 flex items-start gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">{group.title}</h3>
-                        <p className="mt-1 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-3">
-                      {group.items.map((item) => (
-                        <div
-                          key={item.name}
-                          className={cn(
-                            "group flex min-h-[86px] flex-col items-center justify-center gap-2 rounded-lg border border-border/60 bg-background/55 p-3",
-                            "transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/5",
-                          )}
-                        >
-                          <img
-                            src={iconUrl(item)}
-                            alt={`${item.name} logo`}
-                            className="h-8 w-8 object-contain transition-transform group-hover:scale-110"
-                            loading="lazy"
-                          />
-                          <span className="text-center text-xs font-medium leading-tight">{item.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </StaggerItem>
-            )
-          })}
-        </StaggeredContainer>
+        <div className="mx-auto grid max-w-6xl gap-4">
+          {techGroups.map((group, index) => (
+            <TechMarquee key={group.title} group={group} reverse={index % 2 === 1} />
+          ))}
+        </div>
       </ScrollReveal>
     </SectionContainer>
   )

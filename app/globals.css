@@ -354,6 +354,24 @@
   }
 }
 
+@keyframes techMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes techMarqueeReverse {
+  from {
+    transform: translateX(-33.333%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -368,6 +386,14 @@
 
 .animate-pulse-slow {
   animation: pulse 3s infinite;
+}
+
+.animate-tech-marquee {
+  animation: techMarquee 28s linear infinite;
+}
+
+.animate-tech-marquee-reverse {
+  animation: techMarqueeReverse 28s linear infinite;
 }
 
 /* Staggered animations */
