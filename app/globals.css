@@ -389,11 +389,11 @@
 }
 
 .animate-tech-marquee {
-  animation: techMarquee 28s linear infinite;
+  animation: techMarquee 70s linear infinite;
 }
 
 .animate-tech-marquee-reverse {
-  animation: techMarqueeReverse 28s linear infinite;
+  animation: techMarqueeReverse 70s linear infinite;
 }
 
 /* Staggered animations */

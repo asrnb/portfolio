@@ -66,17 +66,17 @@ function TechLogo({ item }: { item: TechItem }) {
   return (
     <div
       className={cn(
-        "group flex min-w-[132px] items-center gap-3 rounded-lg border border-border/60 bg-background/70 px-4 py-3",
+        "group flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-background/70 p-4",
         "transition-colors hover:border-primary/40 hover:bg-primary/5",
       )}
+      title={item.name}
     >
       <img
         src={iconUrl(item)}
         alt={`${item.name} logo`}
-        className="h-8 w-8 shrink-0 object-contain transition-transform group-hover:scale-110"
+        className="h-10 w-10 object-contain transition-transform group-hover:scale-110"
         loading="lazy"
       />
-      <span className="text-sm font-medium">{item.name}</span>
     </div>
   )
 }
