@@ -1,16 +1,12 @@
 import { Suspense } from "react"
 import AboutSection from "@/components/about-section"
-import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedSkills from "@/components/redesigned-skills"
-import RedesignedProjects from "@/components/redesigned-projects"
 import Education from "@/components/education"
-import ContactForm from "@/components/contact-form"
 import Footer from "@/components/footer"
 import FloatingNav from "@/components/floating-nav"
 import ScrollProgress from "@/components/scroll-progress"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { SectionFallback } from "@/components/section-fallback"
-import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
 import { Loader2 } from "lucide-react"
 
 // Simple loading component
@@ -41,33 +37,9 @@ export default function Home() {
         </Suspense>
       </ErrorBoundary>
 
-      <ErrorBoundary fallback={<SectionFallback title="Experience" />}>
-        <Suspense fallback={<LoadingSection name="Experience" />}>
-          <RedesignedExperience />
-        </Suspense>
-      </ErrorBoundary>
-
-      <ErrorBoundary fallback={<SectionFallback title="Projects" />}>
-        <Suspense fallback={<LoadingSection name="Projects" />}>
-          <RedesignedProjects />
-        </Suspense>
-      </ErrorBoundary>
-
       <ErrorBoundary fallback={<SectionFallback title="Education" />}>
         <Suspense fallback={<LoadingSection name="Education" />}>
           <Education />
-        </Suspense>
-      </ErrorBoundary>
-
-      <ErrorBoundary fallback={<SectionFallback title="Contact" />}>
-        <Suspense fallback={<LoadingSection name="Contact" />}>
-          <SectionContainer id="contact" className="bg-gradient-to-b from-background to-background/95">
-            <SectionHeader
-              title="Contact"
-              subtitle="For collaborations, AI automation work, dashboards, or full-stack projects, reach out directly."
-            />
-            <ContactForm />
-          </SectionContainer>
         </Suspense>
       </ErrorBoundary>
 

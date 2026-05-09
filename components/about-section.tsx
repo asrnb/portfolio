@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { ExternalLink, Github, GraduationCap, Heart, Layers, Linkedin, Mail, MapPin, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -33,38 +34,6 @@ const highlights = [
 export default function AboutSection() {
   return (
     <SectionContainer id="about" className="relative min-h-[calc(100vh-4rem)] overflow-hidden">
-      <div className="mx-auto mb-12 max-w-3xl text-center">
-        <Badge className="mb-4 bg-primary/15 px-3 py-1.5 text-primary hover:bg-primary/20">AI Engineer</Badge>
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">April Suarnaba</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-          Computer Science graduate specializing in artificial intelligence, full-stack development, CRM automation,
-          and practical AI integrations.
-        </p>
-
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <Button variant="ghost" size="icon" asChild className="rounded-full">
-            <a href="https://github.com/asrnb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild className="rounded-full">
-            <a
-              href="https://ph.linkedin.com/in/aprilsuarnaba"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </Button>
-          <Button variant="ghost" size="icon" asChild className="rounded-full">
-            <a href="mailto:aprilsuarnaba5@gmail.com" aria-label="Email">
-              <Mail className="h-5 w-5" />
-            </a>
-          </Button>
-        </div>
-      </div>
-
       <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
         <ScrollReveal>
           <Card className="overflow-hidden border-border/70 bg-card/70 shadow-lg">
@@ -145,16 +114,38 @@ export default function AboutSection() {
           </StaggerItem>
 
           <StaggerItem>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <ResumeDownload />
-              <Button className="gap-2" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}>
-                View Projects
-                <ExternalLink className="h-4 w-4" />
+              <Button className="gap-2" asChild>
+                <Link href="/work#projects">
+                  View Projects
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
               </Button>
               <Button variant="outline" className="gap-2" asChild>
                 <a href="https://ph.linkedin.com/in/aprilsuarnaba" target="_blank" rel="noopener noreferrer">
                   View LinkedIn
                   <ExternalLink className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild className="rounded-full">
+                <a href="https://github.com/asrnb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <Github className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild className="rounded-full">
+                <a
+                  href="https://ph.linkedin.com/in/aprilsuarnaba"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild className="rounded-full">
+                <a href="mailto:aprilsuarnaba5@gmail.com" aria-label="Email">
+                  <Mail className="h-5 w-5" />
                 </a>
               </Button>
             </div>
