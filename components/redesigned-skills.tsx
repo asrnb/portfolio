@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Bot, Code2, Database, PanelsTopLeft, PenTool, Workflow } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
@@ -10,6 +11,8 @@ interface TechItem {
   name: string
   slug: string
   color?: string
+  fallback?: string
+  src?: string
 }
 
 const techCategories = [
@@ -22,7 +25,7 @@ const techCategories = [
 ]
 
 const techStack: TechItem[] = [
-  { name: "OpenAI", slug: "openai", color: "412991" },
+  { name: "OpenAI", slug: "openai", color: "412991", fallback: "AI", src: "https://cdn.simpleicons.org/openai/ffffff" },
   { name: "Claude", slug: "anthropic", color: "D97757" },
   { name: "Gemini", slug: "googlegemini", color: "8E75B2" },
   { name: "Cursor", slug: "cursor", color: "ffffff" },
@@ -30,7 +33,13 @@ const techStack: TechItem[] = [
   { name: "Python", slug: "python", color: "3776AB" },
   { name: "Dart", slug: "dart", color: "0175C2" },
   { name: "C++", slug: "cplusplus", color: "00599C" },
-  { name: "C#", slug: "csharp", color: "512BD4" },
+  {
+    name: "C#",
+    slug: "csharp",
+    color: "512BD4",
+    fallback: "C#",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+  },
   { name: "SQL", slug: "sqlite", color: "003B57" },
   { name: "Next.js", slug: "nextdotjs", color: "ffffff" },
   { name: "Vue", slug: "vuedotjs", color: "4FC08D" },
@@ -51,7 +60,13 @@ const techStack: TechItem[] = [
   { name: "Node.js", slug: "nodedotjs", color: "5FA04E" },
   { name: "HubSpot", slug: "hubspot", color: "FF7A59" },
   { name: "Figma", slug: "figma", color: "F24E1E" },
-  { name: "Canva", slug: "canva", color: "00C4CC" },
+  {
+    name: "Canva",
+    slug: "canva",
+    color: "00C4CC",
+    fallback: "C",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg",
+  },
   { name: "GitHub", slug: "github", color: "ffffff" },
   { name: "Git", slug: "git", color: "F05032" },
   { name: "N8N", slug: "n8n", color: "EA4B71" },
@@ -63,6 +78,8 @@ function iconUrl({ slug, color = "ffffff" }: TechItem) {
 }
 
 function TechLogo({ item }: { item: TechItem }) {
+  const [hasError, setHasError] = useState(false)
+
   return (
     <div
       className={cn(
@@ -71,12 +88,22 @@ function TechLogo({ item }: { item: TechItem }) {
       )}
       title={item.name}
     >
-      <img
-        src={iconUrl(item)}
-        alt={`${item.name} logo`}
-        className="h-10 w-10 object-contain transition-transform group-hover:scale-110"
-        loading="lazy"
-      />
+      {hasError ? (
+        <span
+          aria-label={`${item.name} logo fallback`}
+          className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-sm font-bold text-primary transition-transform group-hover:scale-110"
+        >
+          {item.fallback ?? item.name.slice(0, 2)}
+        </span>
+      ) : (
+        <img
+          src={item.src ?? iconUrl(item)}
+          alt={`${item.name} logo`}
+          className="h-10 w-10 object-contain transition-transform group-hover:scale-110"
+          loading="lazy"
+          onError={() => setHasError(true)}
+        />
+      )}
     </div>
   )
 }
