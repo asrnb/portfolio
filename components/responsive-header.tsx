@@ -29,6 +29,7 @@ export default function ResponsiveHeader() {
   const navItems = [
     { name: "Home Page", href: "/" },
     { name: "Experience", href: "/work" },
+    { name: "Work with me", href: "/work-with-me" },
   ]
 
   // If not mounted yet, render a simpler version to avoid hydration issues
