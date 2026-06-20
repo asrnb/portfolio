@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import type { Metadata } from "next"
 import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedProjects from "@/components/redesigned-projects"
+import GraphicDesignProjects from "@/components/graphic-design-projects"
 import Footer from "@/components/footer"
 import FloatingNav from "@/components/floating-nav"
 import ScrollProgress from "@/components/scroll-progress"
@@ -32,7 +33,7 @@ export default function WorkPage() {
       <section className="container mx-auto px-4 py-14 text-center md:py-20">
         <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Selected Work</p>
         <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-normal md:text-5xl">
-          Professional Journey & Projects
+          Experience & Projects
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
           A focused look at my hands-on experience across AI automation, CRM workflows, full-stack development,
@@ -49,6 +50,12 @@ export default function WorkPage() {
       <ErrorBoundary fallback={<SectionFallback title="Projects" />}>
         <Suspense fallback={<LoadingSection name="Projects" />}>
           <RedesignedProjects />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary fallback={<SectionFallback title="Graphic Design Projects" />}>
+        <Suspense fallback={<LoadingSection name="Graphic Design Projects" />}>
+          <GraphicDesignProjects />
         </Suspense>
       </ErrorBoundary>
 

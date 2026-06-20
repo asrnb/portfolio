@@ -40,7 +40,7 @@ export default function AboutSection() {
             <CardContent className="p-0">
               <div className="relative aspect-[4/5] w-full bg-muted">
                 <Image
-                  src="/april.jpg"
+                  src="/april.jpg?v=2026-05-10"
                   alt="April Suarnaba"
                   fill
                   sizes="(min-width: 1024px) 420px, 90vw"
@@ -80,15 +80,17 @@ export default function AboutSection() {
             <div>
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Hi, I'm April.</h2>
               <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
-                I graduated Cum Laude from West Visayas State University with a Bachelor of Science in
-                Computer Science majoring in Artificial Intelligence. My work centers on building AI-powered
-                dashboards, CRM automations, API integrations, and full-stack web applications.
+                I started coding when I was 13 with simple HTML and CSS pages, mostly out of curiosity. Then JavaScript
+                showed me that websites could move, respond, and feel alive - and I was hooked.
               </p>
               <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
-                I enjoy turning real business workflows into clear, usable systems. My current work has
-                evolved around utilizing AI agents and coding assistants such as Claude Code, Codex, and
-                similar tools, alongside HubSpot custom code, LinkedIn automation workflows, Vapi voice AI
-                testing, OpenAI integrations, and computer vision projects using YOLOv8 and OpenCV.
+              During Senior High School, I explored mobile and web development, and eventually took up
+              Computer Science majoring in Artificial Intelligence in college. Since then, I’ve been building
+              AI-powered tools, automations, dashboards, and full-stack applications for businesses.
+              </p>
+              <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
+              I’ve been in this industry for most of my life now, and honestly, there’s no Plan B for me —
+              this is what I genuinely enjoy doing.
               </p>
             </div>
           </StaggerItem>
@@ -121,32 +123,6 @@ export default function AboutSection() {
                   View Projects
                   <ExternalLink className="h-4 w-4" />
                 </Link>
-              </Button>
-              <Button variant="outline" className="gap-2" asChild>
-                <a href="https://ph.linkedin.com/in/aprilsuarnaba" target="_blank" rel="noopener noreferrer">
-                  View LinkedIn
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </Button>
-              <Button variant="ghost" size="icon" asChild className="rounded-full">
-                <a href="https://github.com/asrnb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <Github className="h-5 w-5" />
-                </a>
-              </Button>
-              <Button variant="ghost" size="icon" asChild className="rounded-full">
-                <a
-                  href="https://ph.linkedin.com/in/aprilsuarnaba"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-              </Button>
-              <Button variant="ghost" size="icon" asChild className="rounded-full">
-                <a href="mailto:aprilsuarnaba5@gmail.com" aria-label="Email">
-                  <Mail className="h-5 w-5" />
-                </a>
               </Button>
             </div>
           </StaggerItem>

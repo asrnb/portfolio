@@ -47,7 +47,7 @@ const experiences = [
   },
   {
     id: "skynet",
-    title: "Freelance Graphic Designer / Registrar",
+    title: "Graphic Designer / Registrar",
     company: "Skynet Aviation Academy Inc.",
     location: "Sta. Barbara, Iloilo",
     period: "June 2025 - Present",

@@ -18,35 +18,11 @@ import {
   ExternalLink,
   Github,
   Code,
-  ChevronLeft,
-  ChevronRight,
   Calendar,
   Users,
   Star,
-  Layers,
-  Cpu,
-  Globe,
-  Database,
-  BookOpen,
-  Share2,
-  Shield,
-  MessageSquare,
-  Zap,
   Loader2,
 } from "lucide-react"
-
-// Project categories
-const projectCategories = [
-  { id: "all", name: "All Projects" },
-  { id: "ai", name: "AI & ML", icon: <Cpu className="h-4 w-4" /> },
-  { id: "audio", name: "Audio", icon: <Zap className="h-4 w-4" /> },
-  { id: "web", name: "Web Dev", icon: <Globe className="h-4 w-4" /> },
-  { id: "data", name: "Data Science", icon: <Database className="h-4 w-4" /> },
-  { id: "network", name: "Network", icon: <Share2 className="h-4 w-4" /> },
-  { id: "security", name: "Security", icon: <Shield className="h-4 w-4" /> },
-  { id: "communication", name: "Communication", icon: <MessageSquare className="h-4 w-4" /> },
-  { id: "research", name: "Research", icon: <BookOpen className="h-4 w-4" /> },
-]
 
 // Project data
 const projects = [
@@ -192,35 +168,11 @@ const projects = [
 ]
 
 export default function RedesignedProjects() {
-  const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null)
-  const [currentFeaturedIndex, setCurrentFeaturedIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
   const isClient = useIsClient()
-
-  // Get featured projects
-  const featuredProjects = projects.filter((project) => project.featured)
-
-  // Filter projects based on category
-  const filteredProjects =
-    selectedCategory === "all"
-      ? projects.filter((project) => !project.featured)
-      : projects.filter((project) => project.category === selectedCategory && !project.featured)
-
-  const handleNext = () => {
-    if (!isClient) return
-    setDirection(1)
-    setCurrentFeaturedIndex((prev) => (prev + 1) % featuredProjects.length)
-  }
-
-  const handlePrev = () => {
-    if (!isClient) return
-    setDirection(-1)
-    setCurrentFeaturedIndex((prev) => (prev - 1 + featuredProjects.length) % featuredProjects.length)
-  }
 
   const handleDemoClick = (url: string) => {
     if (!isClient) return
@@ -274,223 +226,32 @@ export default function RedesignedProjects() {
 
       <SectionHeader
         title="Projects"
-        subtitle="Explore my portfolio of AI, machine learning, and software development projects. Each project demonstrates different skills and technologies."
+        subtitle="Explore my portfolio of AI, automation, and software development projects."
       />
 
-      {featuredProjects.length > 0 && (
-        <div className="mb-16">
-          <ScrollReveal>
-            <h3 className="text-xl font-semibold mb-6 flex items-center gap-2 justify-center">
-              <Layers className="h-5 w-5 text-primary" />
-              <span>Featured Projects</span>
-            </h3>
-          </ScrollReveal>
-
-          <ScrollReveal>
-            <div className="relative rounded-xl overflow-hidden">
-              <AnimatePresence mode="wait" initial={false} custom={direction}>
-                <motion.div
-                  key={featuredProjects[currentFeaturedIndex].id}
-                  custom={direction}
-                  initial={{
-                    x: direction > 0 ? 1000 : -1000,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    x: 0,
-                    opacity: 1,
-                    transition: {
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 },
-                    },
-                  }}
-                  exit={{
-                    x: direction > 0 ? -1000 : 1000,
-                    opacity: 0,
-                    transition: {
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 },
-                    },
-                  }}
-                  className="relative w-full aspect-[16/9]"
-                >
-                  <div className="absolute inset-0 flex flex-col md:flex-row">
-                    <div className="relative w-full h-48 md:h-auto md:w-1/2">
-                      <Image
-                        src={featuredProjects[currentFeaturedIndex].imageUrl || "/placeholder.svg"}
-                        alt={featuredProjects[currentFeaturedIndex].title}
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    </div>
-
-                    <div
-                      className={cn(
-                        "w-full md:w-1/2 p-6 flex flex-col justify-center opacity-90 bg-gradient-to-r",
-                        featuredProjects[currentFeaturedIndex].color,
-                      )}
-                    >
-                      <Badge
-                        variant="outline"
-                        className="w-fit mb-4 bg-black/50 backdrop-blur-sm text-white border-white/20"
-                      >
-                        Featured Project
-                      </Badge>
-                      <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 md:mb-4">
-                        {featuredProjects[currentFeaturedIndex].title}
-                      </h3>
-                      <p className="text-white/90 mb-4 md:mb-6 text-sm md:text-base line-clamp-3 md:line-clamp-none">
-                        {featuredProjects[currentFeaturedIndex].description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
-                        {featuredProjects[currentFeaturedIndex].technologies.slice(0, 3).map((tech, index) => (
-                          <Badge
-                            key={index}
-                            className="bg-white/20 hover:bg-white/30 text-white border-none backdrop-blur-sm"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
-                        {featuredProjects[currentFeaturedIndex].technologies.length > 3 && (
-                          <Badge className="bg-white/20 hover:bg-white/30 text-white border-none backdrop-blur-sm">
-                            +{featuredProjects[currentFeaturedIndex].technologies.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-
-                      <div className="flex flex-wrap gap-3">
-                        {featuredProjects[currentFeaturedIndex].demoUrl && (
-                          <Button
-                            className="bg-white text-black hover:bg-white/90 group text-sm"
-                            onClick={() => handleDemoClick(featuredProjects[currentFeaturedIndex].demoUrl)}
-                          >
-                            Live Demo
-                            <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                          </Button>
-                        )}
-
-                        <Button
-                          variant="outline"
-                          className="border-white text-white hover:bg-white/20 gap-2 text-sm"
-                          asChild
-                        >
-                          <a
-                            href={featuredProjects[currentFeaturedIndex].githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <Github className="h-4 w-4" />
-                            View Code
-                          </a>
-                        </Button>
-
-                        <Button
-                          variant="outline"
-                          className="border-white text-white hover:bg-white/20 gap-2 text-sm"
-                          onClick={() => {
-                            setSelectedProject(featuredProjects[currentFeaturedIndex])
-                            setIsDialogOpen(true)
-                          }}
-                        >
-                          <Code className="h-4 w-4" />
-                          Details
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Navigation controls */}
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-30 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-black/50 text-white hover:bg-black/70"
-                onClick={handlePrev}
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </Button>
-
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-30 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-black/50 text-white hover:bg-black/70"
-                onClick={handleNext}
-              >
-                <ChevronRight className="h-5 w-5" />
-              </Button>
-
-              {/* Progress dots */}
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1">
-                {featuredProjects.map((_, index) => (
-                  <button
-                    key={index}
-                    className={cn(
-                      "w-2 h-2 rounded-full transition-all",
-                      currentFeaturedIndex === index ? "bg-white scale-125" : "bg-white/50 hover:bg-white/80",
-                    )}
-                    onClick={() => {
-                      setDirection(index > currentFeaturedIndex ? 1 : -1)
-                      setCurrentFeaturedIndex(index)
-                    }}
-                    aria-label={`Go to project ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      )}
-
       <ScrollReveal>
-        <Tabs defaultValue="all" onValueChange={setSelectedCategory} className="w-full">
-          <div className="overflow-x-auto pb-2 no-scrollbar">
-            <TabsList className="flex justify-start gap-2 mb-8 bg-transparent w-max mx-auto">
-              {projectCategories.map((category) => (
-                <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className={cn(
-                    "px-3 py-2 rounded-full text-xs sm:text-sm font-medium transition-all data-[state=active]:shadow-lg whitespace-nowrap",
-                    selectedCategory === category.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted hover:bg-muted/80",
-                  )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence>
+            {projects.map((project, index) => (
+              <ErrorBoundary key={project.id}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    {category.icon && category.icon}
-                    <span>{category.name}</span>
-                  </div>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AnimatePresence>
-              {filteredProjects.map((project, index) => (
-                <ErrorBoundary key={project.id}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <ProjectCard
-                      project={project}
-                      onSelect={() => {
-                        setSelectedProject(project)
-                        setIsDialogOpen(true)
-                      }}
-                    />
-                  </motion.div>
-                </ErrorBoundary>
-              ))}
-            </AnimatePresence>
-          </div>
-        </Tabs>
+                  <ProjectCard
+                    project={project}
+                    onSelect={() => {
+                      setSelectedProject(project)
+                      setIsDialogOpen(true)
+                    }}
+                  />
+                </motion.div>
+              </ErrorBoundary>
+            ))}
+          </AnimatePresence>
+        </div>
       </ScrollReveal>
 
       {/* Project details dialog */}
@@ -501,17 +262,7 @@ export default function RedesignedProjects() {
               <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-2">
                 <div className="flex justify-between items-start">
                   <div>
-                    <Badge className="mb-2">
-                      {selectedProject.category === "ai"
-                        ? "AI & Machine Learning"
-                        : selectedProject.category === "web"
-                          ? "Web Development"
-                          : selectedProject.category === "data"
-                            ? "Data Science"
-                            : selectedProject.category === "audio"
-                              ? "Audio & Voice Tech"
-                              : "Research"}
-                    </Badge>
+                    <Badge className="mb-2">Project</Badge>
                     <DialogTitle className="text-xl sm:text-2xl">{selectedProject.title}</DialogTitle>
                     <DialogDescription className="mt-2 text-sm">{selectedProject.description}</DialogDescription>
                   </div>
@@ -717,18 +468,7 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
       </div>
 
       <CardContent className="p-4 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-2">
-          <Badge variant="outline" className="text-xs">
-            {project.category === "ai"
-              ? "AI & ML"
-              : project.category === "web"
-                ? "Web Dev"
-                : project.category === "data"
-                  ? "Data Science"
-                  : project.category === "audio"
-                    ? "Audio"
-                    : "Research"}
-          </Badge>
+        <div className="flex justify-end mb-2">
           <div className="flex">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
