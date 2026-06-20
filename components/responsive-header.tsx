@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -27,8 +26,8 @@ export default function ResponsiveHeader() {
   }, [])
 
   const navItems = [
-    { name: "Home Page", href: "/" },
-    { name: "Experience", href: "/work" },
+    { name: "Home", href: "/" },
+    { name: "Projects", href: "/work#projects" },
     { name: "Work with me", href: "/work-with-me" },
   ]
 
@@ -46,7 +45,6 @@ export default function ResponsiveHeader() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="h-9 w-9"></div> {/* Placeholder for theme toggle */}
             <div className="md:hidden">
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
@@ -105,14 +103,6 @@ export default function ResponsiveHeader() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
-          >
-            <ThemeSwitcher />
-          </motion.div>
-
           <div className="md:hidden">
             <Button
               variant="ghost"
