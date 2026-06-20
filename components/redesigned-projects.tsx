@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
+import { SectionContainer } from "@/components/ui/section-container"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,15 +14,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import { useIsClient } from "@/hooks/use-is-client"
 import { ErrorBoundary } from "@/components/error-boundary"
-import {
-  ExternalLink,
-  Github,
-  Code,
-  Calendar,
-  Users,
-  Star,
-  Loader2,
-} from "lucide-react"
+import { ExternalLink, Github, Calendar, Users, Loader2 } from "lucide-react"
 
 // Project data
 const projects = [
@@ -31,23 +23,22 @@ const projects = [
     title: "SEO & AI Grader",
     category: "ai",
     description:
-      "Production full-stack dashboard for SEO and AI scoring workflows.",
+      "SEO analytics dashboard pulling live data from GA4, Search Console, and Ahrefs.",
     longDescription:
-      "A deployed production dashboard built with Vue 3, Vite, Tailwind, and an Express backend. The tool supports SEO and AI grading workflows for evaluating content and surfacing practical optimization signals.",
-    technologies: ["Vue 3", "Vite", "Tailwind", "Express", "SEO"],
+      "A full-stack SEO dashboard built with Vue 3, Vite, and Tailwind on the frontend with an Express backend. It pulls live metrics from Google Analytics 4, Google Search Console, and Ahrefs, scores Technical SEO Health, and lets teams filter by date range and report period, then export the full dashboard as a PDF.",
+    technologies: ["Vue 3", "Vite", "Tailwind", "Express", "Pinia", "PrimeVue", "Google OAuth"],
     imageUrl: "/placeholder.svg?height=600&width=800",
     demoUrl: "",
-    githubUrl: "https://github.com/asrnb",
-    color: "from-blue-600 to-violet-600",
+    githubUrl: "https://github.com/asrnb/seo-grader",
     featured: true,
     completed: "2025",
     teamSize: 1,
     difficulty: 4,
     achievements: [
       "Built a full-stack dashboard with Vue 3, Vite, Tailwind, and Express",
-      "Supported SEO and AI scoring workflows for production use",
-      "Designed the interface for clear review and action-taking",
-      "Deployed the project in production",
+      "Integrated GA4, Google Search Console, and Ahrefs data via OAuth",
+      "Built Technical SEO Health scoring with cached first-crawl baselines",
+      "Added PDF export of the full dashboard for client reporting",
     ],
   },
   {
@@ -61,7 +52,6 @@ const projects = [
     imageUrl: "/placeholder.svg?height=600&width=800",
     demoUrl: "",
     githubUrl: "https://github.com/asrnb",
-    color: "from-purple-600 to-pink-600",
     featured: false,
     completed: "2025",
     teamSize: 1,
@@ -71,29 +61,6 @@ const projects = [
       "Built dynamic LinkedIn message automation",
       "Implemented persona detection and tagging logic",
       "Automated deal and contact association systems",
-    ],
-  },
-  {
-    id: 3,
-    title: "Vapi Voice AI Testing & Integration",
-    category: "audio",
-    description: "Testing and optimization workflow for AI voice agents.",
-    longDescription:
-      "Voice AI testing and integration work using Vapi, OpenAI, and ElevenLabs. The project focused on prompt tuning, call-flow validation, and improving the quality and reliability of AI voice responses.",
-    technologies: ["Vapi", "OpenAI", "ElevenLabs", "Prompt Engineering", "Voice AI"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    demoUrl: "",
-    githubUrl: "https://github.com/asrnb",
-    color: "from-green-600 to-teal-600",
-    featured: false,
-    completed: "2025",
-    teamSize: 1,
-    difficulty: 4,
-    achievements: [
-      "Tested and optimized AI voice agents",
-      "Tuned prompts for higher-quality voice responses",
-      "Validated call flows across voice interactions",
-      "Integrated OpenAI and ElevenLabs-powered voice tooling",
     ],
   },
   {
@@ -107,7 +74,6 @@ const projects = [
     imageUrl: "/placeholder.svg?height=600&width=800",
     demoUrl: "",
     githubUrl: "https://github.com/asrnb",
-    color: "from-amber-600 to-orange-600",
     featured: false,
     completed: "2025",
     teamSize: 4,
@@ -130,7 +96,6 @@ const projects = [
     imageUrl: "/placeholder.svg?height=600&width=800",
     demoUrl: "",
     githubUrl: "https://github.com/asrnb",
-    color: "from-blue-600 to-cyan-600",
     featured: false,
     completed: "2024",
     teamSize: 1,
@@ -148,12 +113,11 @@ const projects = [
     category: "ai",
     description: "AI-powered business idea generator for entrepreneurs.",
     longDescription:
-      "A Streamlit application using Python and OpenAI GPT to help entrepreneurs generate business ideas tailored to different industries and constraints.",
+      "A Streamlit app built for CCS 229 that uses OpenAI's GPT model to help entrepreneurs generate business ideas. Users pick an industry (Technology, Healthcare, Education, Retail, Finance, or Food & Beverage), a target audience, and unique selling points, and the app generates tailored, ready-to-use business concepts for instant feedback or team brainstorming.",
     technologies: ["Python", "Streamlit", "OpenAI", "Prompt Engineering"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
+    imageUrl: "/projects/bizgen-gpt-cover.png",
     demoUrl: "",
-    githubUrl: "https://github.com/asrnb",
-    color: "from-indigo-600 to-blue-600",
+    githubUrl: "https://github.com/asrnb/ccs229-finalproject",
     featured: false,
     completed: "2024",
     teamSize: 1,
@@ -165,7 +129,61 @@ const projects = [
       "Focused on practical support for early-stage entrepreneurs",
     ],
   },
+  {
+    id: 11,
+    title: "Luminance",
+    category: "design",
+    description: "UI/UX app design with an interactive Figma prototype.",
+    longDescription:
+      "An application UI/UX design project called Luminance, designed end-to-end in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
+    technologies: ["Figma", "UI/UX Design", "Prototyping"],
+    imageUrl: "/placeholder.svg?height=600&width=800",
+    demoUrl: "https://www.figma.com/proto/2hdvz905hpaX5xcBkUAykF/Luminance--UI-UX-?node-id=1-4&t=g5Iveeu5jCV242C8-1",
+    githubUrl: "",
+    featured: false,
+    completed: "2025",
+    teamSize: 1,
+    difficulty: 3,
+    achievements: [
+      "Designed the Luminance app's UI/UX from scratch in Figma",
+      "Built an interactive, clickable prototype for the core user flow",
+      "Defined a consistent visual and interaction language across screens",
+    ],
+  },
+  {
+    id: 12,
+    title: "Sa-kai",
+    category: "design",
+    description: "UI/UX app design with an interactive Figma prototype.",
+    longDescription:
+      "An application UI/UX design project called Sa-kai, designed in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
+    technologies: ["Figma", "UI/UX Design", "Prototyping"],
+    imageUrl: "/placeholder.svg?height=600&width=800",
+    demoUrl: "https://www.figma.com/proto/EBbrqTIt5OCmmTp9RXDALV/Sa-kai?node-id=3-652&starting-point-node-id=1%3A4",
+    githubUrl: "",
+    featured: false,
+    completed: "2025",
+    teamSize: 1,
+    difficulty: 3,
+    achievements: [
+      "Designed the Sa-kai app's UI/UX from scratch in Figma",
+      "Built an interactive, clickable prototype for the core user flow",
+      "Defined a consistent visual and interaction language across screens",
+    ],
+  },
 ]
+
+function hasRealImage(imageUrl: string) {
+  return Boolean(imageUrl) && !imageUrl.startsWith("/placeholder")
+}
+
+function DifficultyLabel({ value }: { value: number }) {
+  return (
+    <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+      Difficulty {value}/5
+    </span>
+  )
+}
 
 export default function RedesignedProjects() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null)
@@ -206,29 +224,18 @@ export default function RedesignedProjects() {
   if (!isClient || isLoading) {
     return (
       <SectionContainer id="projects" className="relative">
-        <SectionHeader
-          title="Projects"
-          subtitle="Explore my portfolio of AI, machine learning, and software development projects."
-        />
         <div className="flex justify-center items-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mr-2" />
+          <Loader2 className="h-8 w-8 animate-spin text-foreground mr-2" />
           <span>Loading projects...</span>
         </div>
       </SectionContainer>
     )
   }
 
+  const selectedHasImage = selectedProject ? hasRealImage(selectedProject.imageUrl) : false
+
   return (
     <SectionContainer id="projects" className="relative">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-3xl -z-10" />
-
-      <SectionHeader
-        title="Projects"
-        subtitle="Explore my portfolio of AI, automation, and software development projects."
-      />
-
       <ScrollReveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
@@ -262,32 +269,22 @@ export default function RedesignedProjects() {
               <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-2">
                 <div className="flex justify-between items-start">
                   <div>
-                    <Badge className="mb-2">Project</Badge>
+                    <Badge className="mb-2 font-mono text-[10px] uppercase tracking-[0.1em]">Project</Badge>
                     <DialogTitle className="text-xl sm:text-2xl">{selectedProject.title}</DialogTitle>
                     <DialogDescription className="mt-2 text-sm">{selectedProject.description}</DialogDescription>
                   </div>
-                  <div className="flex">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-4 w-4 ${i < selectedProject.difficulty ? "fill-yellow-500 text-yellow-500" : "text-muted"}`}
-                      />
-                    ))}
-                  </div>
+                  <DifficultyLabel value={selectedProject.difficulty} />
                 </div>
               </DialogHeader>
 
               <Tabs defaultValue="overview" className="flex-1 overflow-hidden">
-                <div className="px-4 sm:px-6 border-b">
+                <div className="px-4 sm:px-6 border-b border-border">
                   <TabsList className="justify-start rounded-none bg-transparent h-10">
                     <TabsTrigger value="overview" className="text-sm">
                       Overview
                     </TabsTrigger>
                     <TabsTrigger value="details" className="text-sm">
                       Details
-                    </TabsTrigger>
-                    <TabsTrigger value="gallery" className="text-sm">
-                      Gallery
                     </TabsTrigger>
                   </TabsList>
                 </div>
@@ -297,14 +294,16 @@ export default function RedesignedProjects() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       <div className="lg:col-span-2">
                         <h4 className="text-lg font-semibold mb-3">Project Details</h4>
-                        <p className="mb-6 text-sm sm:text-base">{selectedProject.longDescription}</p>
+                        <p className="mb-6 text-sm sm:text-base text-muted-foreground">
+                          {selectedProject.longDescription}
+                        </p>
 
                         <h4 className="text-lg font-semibold mb-3">Key Achievements</h4>
                         <ul className="space-y-2 mb-6">
                           {selectedProject.achievements.map((achievement, i) => (
                             <li key={i} className="flex items-start gap-2">
-                              <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center mt-0.5 flex-shrink-0">
-                                <span className="text-xs text-primary">✓</span>
+                              <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center mt-0.5 flex-shrink-0">
+                                <span className="text-xs text-foreground">✓</span>
                               </div>
                               <span className="text-sm sm:text-base">{achievement}</span>
                             </li>
@@ -314,7 +313,11 @@ export default function RedesignedProjects() {
                         <h4 className="text-lg font-semibold mb-3">Technologies</h4>
                         <div className="flex flex-wrap gap-2 mb-6">
                           {selectedProject.technologies.map((tech, index) => (
-                            <Badge key={index} variant="secondary">
+                            <Badge
+                              key={index}
+                              variant="outline"
+                              className="border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                            >
                               {tech}
                             </Badge>
                           ))}
@@ -331,12 +334,14 @@ export default function RedesignedProjects() {
                               Live Demo
                             </Button>
                           )}
-                          <Button variant="outline" className="gap-2" asChild>
-                            <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
-                              <Github className="h-4 w-4" />
-                              GitHub
-                            </a>
-                          </Button>
+                          {selectedProject.githubUrl && (
+                            <Button variant="outline" className="gap-2" asChild>
+                              <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Github className="h-4 w-4" />
+                                GitHub
+                              </a>
+                            </Button>
+                          )}
                         </div>
                       </div>
 
@@ -344,23 +349,22 @@ export default function RedesignedProjects() {
                         <h4 className="text-lg font-semibold mb-3">Project Info</h4>
                         <div className="space-y-4">
                           <div className="flex flex-col">
-                            <span className="text-sm text-muted-foreground">Completed</span>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                              Completed
+                            </span>
                             <span>{selectedProject.completed}</span>
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm text-muted-foreground">Team Size</span>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                              Team Size
+                            </span>
                             <span>{selectedProject.teamSize} people</span>
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-sm text-muted-foreground">Difficulty</span>
-                            <div className="flex">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-4 w-4 ${i < selectedProject.difficulty ? "fill-yellow-500 text-yellow-500" : "text-muted"}`}
-                                />
-                              ))}
-                            </div>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                              Difficulty
+                            </span>
+                            <span>{selectedProject.difficulty}/5</span>
                           </div>
                         </div>
                       </div>
@@ -368,54 +372,30 @@ export default function RedesignedProjects() {
                   </TabsContent>
 
                   <TabsContent value="details" className="mt-0">
-                    <div className="relative aspect-video mb-6 rounded-lg overflow-hidden">
-                      <Image
-                        src={selectedProject.imageUrl || "/placeholder.svg"}
-                        alt={selectedProject.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                    {selectedHasImage ? (
+                      <div className="relative aspect-video mb-6 overflow-hidden rounded-lg">
+                        <Image
+                          src={selectedProject.imageUrl}
+                          alt={selectedProject.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="mb-6 flex aspect-video items-center justify-center rounded-lg bg-muted">
+                        <span className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                          No preview available
+                        </span>
+                      </div>
+                    )}
 
                     <div className="space-y-6">
                       <div>
                         <h4 className="text-lg font-semibold mb-2">Project Description</h4>
-                        <p className="text-sm sm:text-base">{selectedProject.longDescription}</p>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-2">Implementation Details</h4>
-                        <p className="text-sm sm:text-base">
-                          This project was implemented using {selectedProject.technologies.join(", ")}. The development
-                          process involved careful planning, iterative development, and rigorous testing to ensure
-                          high-quality results.
+                        <p className="text-sm sm:text-base text-muted-foreground">
+                          {selectedProject.longDescription}
                         </p>
                       </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-2">Challenges & Solutions</h4>
-                        <p className="text-sm sm:text-base">
-                          During development, we encountered several challenges including performance optimization,
-                          scalability concerns, and integration complexities. These were addressed through innovative
-                          approaches and best practices in software engineering.
-                        </p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="gallery" className="mt-0">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {[1, 2, 3, 4].map((index) => (
-                        <div key={index} className="overflow-hidden rounded-lg">
-                          <Image
-                            src={`/placeholder.svg?height=400&width=600&text=Screenshot ${index}`}
-                            alt={`${selectedProject.title} screenshot ${index}`}
-                            width={600}
-                            height={400}
-                            className="w-full h-auto object-cover transition-transform duration-500 hover:scale-110"
-                          />
-                        </div>
-                      ))}
                     </div>
                   </TabsContent>
                 </div>
@@ -436,47 +416,41 @@ interface ProjectCardProps {
 function ProjectCard({ project, onSelect }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const isClient = useIsClient()
+  const hasImage = hasRealImage(project.imageUrl)
 
   return (
     <Card
-      className="overflow-hidden h-full flex flex-col border-none shadow-md hover:shadow-lg transition-all duration-300 group"
+      className="overflow-hidden h-full flex flex-col bg-card transition-shadow duration-300 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-video overflow-hidden">
-        <Image
-          src={project.imageUrl || "/placeholder.svg"}
-          alt={project.title}
-          fill
-          className={cn(
-            "object-cover transition-transform duration-500",
-            isClient && isHovered ? "scale-110" : "scale-100",
-          )}
-        />
-        <div
-          className={cn(
-            "absolute inset-0 opacity-0 group-hover:opacity-80 transition-opacity duration-300 bg-gradient-to-r",
-            project.color,
-          )}
-        />
+      {hasImage && (
+        <div className="relative aspect-video overflow-hidden border-b border-border">
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            className={cn(
+              "object-cover transition-transform duration-500",
+              isClient && isHovered ? "scale-105" : "scale-100",
+            )}
+          />
 
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button variant="outline" className="border-white text-white hover:bg-white/20" onClick={onSelect}>
-            View Details
-          </Button>
+          <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity duration-300 group-hover:bg-foreground/60 group-hover:opacity-100">
+            <Button
+              variant="outline"
+              className="border-background text-background hover:bg-background/10 hover:text-background"
+              onClick={onSelect}
+            >
+              View Details
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <CardContent className="p-4 flex-1 flex flex-col">
         <div className="flex justify-end mb-2">
-          <div className="flex">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`h-3 w-3 ${i < project.difficulty ? "fill-yellow-500 text-yellow-500" : "text-muted"}`}
-              />
-            ))}
-          </div>
+          <DifficultyLabel value={project.difficulty} />
         </div>
 
         <h3 className="font-bold mb-2 line-clamp-1">{project.title}</h3>
@@ -484,26 +458,47 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
         <div className="flex flex-wrap gap-1 mb-4 mt-auto">
           {project.technologies.slice(0, 3).map((tech, i) => (
-            <Badge key={i} variant="secondary" className="text-xs">
+            <Badge
+              key={i}
+              variant="outline"
+              className="border-border font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground"
+            >
               {tech}
             </Badge>
           ))}
           {project.technologies.length > 3 && (
-            <Badge variant="secondary" className="text-xs">
+            <Badge
+              variant="outline"
+              className="border-border font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground"
+            >
               +{project.technologies.length - 3} more
             </Badge>
           )}
         </div>
 
-        <div className="flex justify-between items-center text-xs text-muted-foreground">
+        <div className="flex justify-between items-center font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground mb-4">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             <span>{project.completed}</span>
           </div>
           <div className="flex items-center gap-1">
             <Users className="h-3 w-3" />
-            <span>Team: {project.teamSize}</span>
+            <span>Team {project.teamSize}</span>
           </div>
+        </div>
+
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="flex-1 gap-1.5" onClick={onSelect}>
+            Details
+          </Button>
+          {project.demoUrl && (
+            <Button size="sm" className="flex-1 gap-1.5" asChild>
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-3.5 w-3.5" />
+                Live Demo
+              </a>
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

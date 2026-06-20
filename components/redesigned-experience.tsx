@@ -6,7 +6,6 @@ import { SectionContainer, SectionHeader } from "@/components/ui/section-contain
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ErrorBoundary } from "@/components/error-boundary"
 import {
@@ -43,7 +42,6 @@ const experiences = [
       { value: "CRM", label: "Automation" },
       { value: "API", label: "Integrations" },
     ],
-    color: "from-indigo-600 to-purple-600",
   },
   {
     id: "skynet",
@@ -66,7 +64,6 @@ const experiences = [
       { value: "Social", label: "Graphics" },
       { value: "Records", label: "Support" },
     ],
-    color: "from-green-600 to-emerald-600",
   },
   {
     id: "callbox-intern",
@@ -89,7 +86,6 @@ const experiences = [
       { value: "Full", label: "Stack" },
       { value: "CRM", label: "Systems" },
     ],
-    color: "from-blue-600 to-cyan-600",
   },
 ]
 
@@ -101,7 +97,7 @@ export default function RedesignedExperience() {
   }
 
   return (
-    <SectionContainer id="experience" className="bg-gradient-to-b from-background/95 to-background">
+    <SectionContainer id="experience">
       <SectionHeader
         title="Professional Journey"
         subtitle="Work experience across AI automation, CRM workflows, full-stack development, design support, and technical operations."
@@ -116,56 +112,51 @@ export default function RedesignedExperience() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Card
-                    className={cn("overflow-hidden border-none shadow-lg", `bg-gradient-to-br ${experience.color}/10`)}
-                  >
+                  <Card className="overflow-hidden bg-card">
                     <CardContent className="p-0">
                       <div
                         className={cn(
-                          "p-4 sm:p-6 cursor-pointer transition-all duration-300",
+                          "flex cursor-pointer gap-4 p-4 transition-all duration-300 sm:p-6",
                           expandedExperience === experience.id ? "pb-3" : "",
                         )}
                         onClick={() => toggleExpand(experience.id)}
                       >
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                          <div>
-                            <Badge
-                              className="mb-2 border-blue-500/30 bg-blue-500/20 px-3 py-1 text-blue-500"
-                            >
-                              <Briefcase className="mr-1 h-3 w-3" />
-                              Work Experience
-                            </Badge>
-                            <h3 className="text-xl font-semibold flex items-center gap-2">
-                              {experience.title}
-                              <motion.div
-                                animate={{ rotate: expandedExperience === experience.id ? 180 : 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                {expandedExperience === experience.id ? (
-                                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                                ) : (
-                                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                                )}
-                              </motion.div>
-                            </h3>
-                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-muted-foreground">
-                              <div className="flex items-center gap-1">
-                                <Building className="h-4 w-4" />
-                                <span>{experience.company}</span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <MapPin className="h-4 w-4" />
-                                <span>{experience.location}</span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Calendar className="h-4 w-4" />
-                                <span>{experience.period}</span>
-                              </div>
-                            </div>
-                          </div>
+                        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-tile bg-muted text-foreground">
+                          <Briefcase className="h-5 w-5" />
                         </div>
 
-                        <p className="text-muted-foreground">{experience.description}</p>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-4">
+                            <h3 className="text-xl font-semibold">{experience.title}</h3>
+                            <motion.div
+                              className="mt-1 flex-shrink-0"
+                              animate={{ rotate: expandedExperience === experience.id ? 180 : 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {expandedExperience === experience.id ? (
+                                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                              ) : (
+                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                              )}
+                            </motion.div>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 font-mono text-xs uppercase tracking-[0.05em] text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <Building className="h-3.5 w-3.5" />
+                              <span>{experience.company}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <MapPin className="h-3.5 w-3.5" />
+                              <span>{experience.location}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Calendar className="h-3.5 w-3.5" />
+                              <span>{experience.period}</span>
+                            </div>
+                          </div>
+
+                          <p className="mt-3 text-muted-foreground">{experience.description}</p>
+                        </div>
                       </div>
 
                       <AnimatePresence>
@@ -180,15 +171,15 @@ export default function RedesignedExperience() {
                             <div className="px-4 sm:px-6 pb-6">
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 border-t">
                                 <div>
-                                  <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                                    <Award className="h-5 w-5 text-primary" />
+                                  <h4 className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                                    <Award className="h-4 w-4" />
                                     Key Responsibilities
                                   </h4>
                                   <ul className="space-y-2">
                                     {experience.responsibilities.map((responsibility, i) => (
                                       <li key={i} className="flex items-start gap-2">
-                                        <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center mt-0.5 flex-shrink-0">
-                                          <span className="text-xs text-primary">✓</span>
+                                        <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-muted">
+                                          <span className="text-xs text-foreground">✓</span>
                                         </div>
                                         <span className="text-sm sm:text-base">{responsibility}</span>
                                       </li>
@@ -196,13 +187,17 @@ export default function RedesignedExperience() {
                                   </ul>
 
                                   <div className="mt-6">
-                                    <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                                      <Users className="h-5 w-5 text-primary" />
+                                    <h4 className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                                      <Users className="h-4 w-4" />
                                       Skills Applied
                                     </h4>
                                     <div className="flex flex-wrap gap-2">
                                       {experience.skills.map((skill, i) => (
-                                        <Badge key={i} variant="secondary">
+                                        <Badge
+                                          key={i}
+                                          variant="outline"
+                                          className="border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                                        >
                                           {skill}
                                         </Badge>
                                       ))}
@@ -211,24 +206,20 @@ export default function RedesignedExperience() {
                                 </div>
 
                                 <div>
-                                  <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                                    <Target className="h-5 w-5 text-primary" />
+                                  <h4 className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+                                    <Target className="h-4 w-4" />
                                     Key Metrics & Achievements
                                   </h4>
 
                                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                                     {experience.metrics.map((metric, i) => (
-                                      <div key={i} className="bg-primary/10 rounded-lg p-3 text-center">
+                                      <div key={i} className="rounded-tile bg-muted p-3 text-center">
                                         <div className="text-xl sm:text-2xl font-bold">{metric.value}</div>
-                                        <div className="text-xs sm:text-sm text-muted-foreground">{metric.label}</div>
+                                        <div className="font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground">
+                                          {metric.label}
+                                        </div>
                                       </div>
                                     ))}
-                                  </div>
-
-                                  <div className="mt-4">
-                                    <Button variant="outline" className="w-full">
-                                      View Reference Letter
-                                    </Button>
                                   </div>
                                 </div>
                               </div>

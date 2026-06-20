@@ -57,14 +57,16 @@ export default function WorkWithMeForm() {
   }
 
   return (
-    <Card className="mx-auto max-w-2xl border-border/70 bg-card/80 shadow-lg">
+    <Card className="mx-auto max-w-2xl bg-card">
       <CardContent className="p-6 sm:p-8">
         <div className="mb-7 flex items-start gap-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-tile bg-muted text-foreground">
             <Mail className="h-5 w-5" />
           </div>
           <div>
-            <p className="mb-2 text-sm font-medium uppercase tracking-[0.18em] text-primary">Available for work</p>
+            <p className="mb-2 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+              Available for work
+            </p>
             <h1 className="text-3xl font-bold tracking-normal">Hire me for your next build</h1>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               I can help turn business problems into practical systems: AI automations, dashboards, CRM workflows,
@@ -74,26 +76,26 @@ export default function WorkWithMeForm() {
         </div>
 
         <div className="mb-7 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
-            <Bot className="mb-2 h-4 w-4 text-primary" />
+          <div className="rounded-lg border border-border bg-muted p-3">
+            <Bot className="mb-2 h-4 w-4 text-foreground" />
             <p className="text-sm font-medium">AI automation</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">Agents, prompts, voice AI, and workflows.</p>
           </div>
-          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
-            <LayoutDashboard className="mb-2 h-4 w-4 text-primary" />
+          <div className="rounded-lg border border-border bg-muted p-3">
+            <LayoutDashboard className="mb-2 h-4 w-4 text-foreground" />
             <p className="text-sm font-medium">Dashboards</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">Useful interfaces for business data.</p>
           </div>
-          <div className="rounded-lg border border-border/70 bg-background/55 p-3">
-            <Workflow className="mb-2 h-4 w-4 text-primary" />
+          <div className="rounded-lg border border-border bg-muted p-3">
+            <Workflow className="mb-2 h-4 w-4 text-foreground" />
             <p className="text-sm font-medium">CRM workflows</p>
             <p className="mt-1 text-xs leading-5 text-muted-foreground">HubSpot, APIs, and operations tooling.</p>
           </div>
         </div>
 
         {status === "sent" ? (
-          <div className="rounded-lg border border-green-500/30 bg-green-500/10 p-6 text-center">
-            <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-green-500" />
+          <div className="rounded-lg border border-border bg-muted p-6 text-center">
+            <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-foreground" />
             <p className="font-semibold">Message sent</p>
             <p className="mt-2 text-sm text-muted-foreground">{statusMessage}</p>
             <Button className="mt-5" variant="outline" onClick={() => setStatus("idle")}>

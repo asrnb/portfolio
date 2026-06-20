@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import RedesignedHero from "@/components/redesigned-hero"
 import AboutSection from "@/components/about-section"
+import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedSkills from "@/components/redesigned-skills"
 import Education from "@/components/education"
 import Footer from "@/components/footer"
@@ -14,7 +15,7 @@ import { Loader2 } from "lucide-react"
 function LoadingSection({ name }: { name: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20">
-      <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+      <Loader2 className="h-8 w-8 animate-spin text-foreground mb-4" />
       <p className="text-muted-foreground">Loading {name} section...</p>
     </div>
   )
@@ -22,7 +23,7 @@ function LoadingSection({ name }: { name: string }) {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background pt-16">
+    <main className="min-h-screen pt-16">
       <ScrollProgress />
       <FloatingNav />
 
@@ -35,6 +36,12 @@ export default function Home() {
       <ErrorBoundary fallback={<SectionFallback title="About" />}>
         <Suspense fallback={<LoadingSection name="About" />}>
           <AboutSection />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary fallback={<SectionFallback title="Experience" />}>
+        <Suspense fallback={<LoadingSection name="Experience" />}>
+          <RedesignedExperience />
         </Suspense>
       </ErrorBoundary>
 

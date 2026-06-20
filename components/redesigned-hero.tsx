@@ -1,42 +1,29 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { CustomGradientBackground } from "@/components/custom-gradient-background"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react"
 import { useIsClient } from "@/hooks/use-is-client"
 
+const tags = ["AI Automation", "Full-Stack Development", "API Integrations"]
+
 export default function RedesignedHero() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
   const isClient = useIsClient()
 
-  // Safe scroll progress - only run on client
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   })
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    setMousePosition({
-      x: ((e.clientX - rect.left) / rect.width - 0.5) * 20,
-      y: ((e.clientY - rect.top) / rect.height - 0.5) * 20,
-    })
-  }
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, 60])
 
   // Typing effect for the subtitle
   const [displayedText, setDisplayedText] = useState("")
@@ -46,149 +33,88 @@ export default function RedesignedHero() {
   useEffect(() => {
     if (!isClient) return
 
-    let i = 0
+    setDisplayedText("")
     const interval = setInterval(() => {
-      if (i < fullText.length) {
-        setDisplayedText((prev) => prev + fullText.charAt(i))
-        i++
-      } else {
-        clearInterval(interval)
-      }
+      setDisplayedText((prev) => {
+        if (prev.length >= fullText.length) {
+          clearInterval(interval)
+          return prev
+        }
+        return fullText.slice(0, prev.length + 1)
+      })
     }, 30)
 
     return () => clearInterval(interval)
   }, [fullText, isClient])
 
-  // Function to highlight specific terms in the text
-  const highlightText = (text: string) => {
-    const termsToHighlight = ["AI-powered", "automation workflows", "full-stack tools", "digital systems"]
-    let highlightedText = text
-
-    termsToHighlight.forEach((term) => {
-      // Use case-insensitive regex that preserves the original casing
-      const regex = new RegExp(`(${term})`, "gi")
-      highlightedText = highlightedText.replace(regex, (match) => {
-        return `<span class="text-primary font-semibold">${match}</span>`
-      })
-    })
-
-    return highlightedText
-  }
-
   return (
-    <CustomGradientBackground className="min-h-screen flex items-center">
+    <div className="min-h-screen flex items-center">
       <motion.div
         ref={containerRef}
-        style={isClient ? { opacity, scale, y } : {}}
+        style={isClient ? { opacity, y } : {}}
         className="container mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Left column - Text content */}
         <div className="order-2 md:order-1 text-center md:text-left">
           <ScrollReveal>
-            <Badge className="mb-4 px-3 py-1.5 text-sm bg-primary/20 border-primary/30 text-primary">
+            <Badge
+              variant="outline"
+              className="mb-4 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground"
+            >
               AI Engineer
             </Badge>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-happy-hearts to-golden-nugget">
-                April Suarnaba
-              </span>
+              April Suarnaba
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 leading-relaxed">
-              {isClient && displayedText.length === fullText.length ? (
-                <span dangerouslySetInnerHTML={{ __html: highlightText(displayedText) }} />
-              ) : (
-                <>
-                  {displayedText}
-                  {isClient && <span className="animate-pulse">|</span>}
-                </>
-              )}
+            <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 leading-relaxed text-muted-foreground">
+              {displayedText}
+              {isClient && displayedText.length < fullText.length && <span className="animate-pulse">|</span>}
             </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
             <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-6 md:mb-8">
-              <Badge
-                variant="outline"
-                className="px-2 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm border-estragon/30 hover:bg-estragon/10 transition-colors"
-              >
-                AI Automation
-              </Badge>
-              <Badge
-                variant="outline"
-                className="px-2 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm border-estragon/30 hover:bg-estragon/10 transition-colors"
-              >
-                Full-Stack Development
-              </Badge>
-              <Badge
-                variant="outline"
-                className="px-2 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm border-white/20 hover:bg-white/10 transition-colors"
-              >
-                API Integrations
-              </Badge>
-              {/*  */}
+              {tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="outline"
+                  className="border-border px-2 py-1 sm:px-3 sm:py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground sm:text-xs"
+                >
+                  {tag}
+                </Badge>
+              ))}
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.4}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mb-6 md:mb-8">
-              <Button
-                size="lg"
-                className="group relative overflow-hidden shadow-lg hover:shadow-happy-hearts/20 transition-all duration-300 bg-happy-hearts hover:bg-happy-hearts/90 text-white"
-                asChild
-              >
+              <Button size="lg" asChild>
                 <Link href="/work#projects">
-                  <span className="relative z-10">View Projects</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-happy-hearts to-bite-tongue opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 relative z-10" />
+                  View Projects
+                  <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="group relative overflow-hidden border-copper-coin/50 hover:border-copper-coin transition-colors duration-300"
-                asChild
-              >
-                <Link href="/work-with-me">
-                  <span className="relative z-10">Work with me</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-copper-coin/10 to-golden-nugget/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/work-with-me">Work with me</Link>
               </Button>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.5}>
-            <div className="flex gap-4 justify-center md:justify-start">
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="rounded-full hover:bg-succulent/10 transition-all duration-300 hover:scale-110"
-              >
-                <a
-                  href="https://github.com/asrnb"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                >
+            <div className="flex gap-2 justify-center md:justify-start">
+              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
+                <a href="https://github.com/asrnb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                   <Github className="h-5 w-5" />
                 </a>
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-110"
-              >
+              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
                 <a
                   href="https://ph.linkedin.com/in/aprilsuarnaba"
                   target="_blank"
@@ -198,12 +124,7 @@ export default function RedesignedHero() {
                   <Linkedin className="h-5 w-5" />
                 </a>
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-110"
-              >
+              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
                 <a href="mailto:aprilsuarnaba5@gmail.com" aria-label="Email">
                   <Mail className="h-5 w-5" />
                 </a>
@@ -215,69 +136,27 @@ export default function RedesignedHero() {
         {/* Right column - Image */}
         <div className="order-1 md:order-2 flex justify-center mb-6 md:mb-0">
           <ScrollReveal direction="left">
-            <motion.div
-              className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl"
-              animate={
-                isClient && isHovered
-                  ? {
-                      x: mousePosition.x * -0.5,
-                      y: mousePosition.y * -0.5,
-                    }
-                  : {}
-              }
-              transition={{ type: "spring", stiffness: 150, damping: 15 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <Image
-                src="/april.jpg?v=2026-05-10"
-                alt="April Suarnaba" 
-                fill
-                className="object-cover"
-                priority
-              />
-
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-12 h-12 bg-blue-500/30 rounded-full blur-xl" />
-              <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-500/30 rounded-full blur-xl" />
-
-              {/* Add a subtle pulsing glow effect */}
-              {isClient && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 mix-blend-overlay"
-                  animate={{
-                    opacity: [0.2, 0.4, 0.2],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                  }}
-                />
-              )}
-            </motion.div>
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border border-border">
+              <Image src="/april.jpg?v=2026-05-10" alt="April Suarnaba" fill className="object-cover" priority />
+            </div>
           </ScrollReveal>
         </div>
 
         {/* Scroll indicator */}
         {isClient && (
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
-              whileHover={{ scale: 1.1 }}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full border border-border text-muted-foreground hover:text-foreground"
+              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+              aria-label="Scroll to about section"
             >
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full border border-white/20 backdrop-blur-sm hover:bg-white/10 transition-colors"
-                onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                <ArrowDown className="h-4 w-4" />
-              </Button>
-            </motion.div>
+              <ArrowDown className="h-4 w-4" />
+            </Button>
           </div>
         )}
       </motion.div>
-    </CustomGradientBackground>
+    </div>
   )
 }

@@ -36,7 +36,7 @@ export default function AboutSection() {
     <SectionContainer id="about" className="relative min-h-[calc(100vh-4rem)] overflow-hidden">
       <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
         <ScrollReveal>
-          <Card className="overflow-hidden border-border/70 bg-card/70 shadow-lg">
+          <Card className="overflow-hidden bg-card shadow-sm">
             <CardContent className="p-0">
               <div className="relative aspect-[4/5] w-full bg-muted">
                 <Image
@@ -48,7 +48,7 @@ export default function AboutSection() {
                   priority
                 />
               </div>
-              <div className="border-t border-border/70 p-5">
+              <div className="border-t border-border p-5">
                 <p className="text-lg font-semibold">April Suarnaba</p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   AI Engineer focused on AI-powered business tooling.
@@ -61,15 +61,24 @@ export default function AboutSection() {
         <StaggeredContainer className="space-y-7">
           <StaggerItem>
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary" className="gap-1.5">
+              <Badge
+                variant="outline"
+                className="gap-1.5 border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+              >
                 <Layers className="h-3.5 w-3.5" />
                 Full-stack
               </Badge>
-              <Badge variant="secondary" className="gap-1.5">
+              <Badge
+                variant="outline"
+                className="gap-1.5 border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+              >
                 <Sparkles className="h-3.5 w-3.5" />
                 AI automation
               </Badge>
-              <Badge variant="secondary" className="gap-1.5">
+              <Badge
+                variant="outline"
+                className="gap-1.5 border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+              >
                 <Heart className="h-3.5 w-3.5" />
                 UI/UX
               </Badge>
@@ -100,12 +109,14 @@ export default function AboutSection() {
               {highlights.map((item) => {
                 const Icon = item.icon
                 return (
-                  <Card key={item.label} className="border-border/70 bg-background/55">
+                  <Card key={item.label} className="bg-card">
                     <CardContent className="p-4">
-                      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
+                      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-tile bg-muted text-foreground">
                         <Icon className="h-4 w-4" />
                       </div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">{item.label}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                        {item.label}
+                      </p>
                       <p className="mt-1 font-semibold">{item.value}</p>
                       <p className="mt-1 text-xs leading-5 text-muted-foreground">{item.detail}</p>
                     </CardContent>

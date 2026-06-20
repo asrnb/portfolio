@@ -24,8 +24,8 @@ export default function ResumeDownload() {
         title: "Resume download started",
         description: "April Suarnaba's resume PDF is downloading.",
         action: (
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/20">
-            <CheckCircle className="h-5 w-5 text-green-500" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+            <CheckCircle className="h-5 w-5 text-foreground" />
           </div>
         ),
       })

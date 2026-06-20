@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "Space Grotesk", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -53,21 +57,13 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom color palette
-        "happy-hearts": "#d6665d",
-        "bite-tongue": "#dd796b",
-        "copper-coin": "#dd845b",
-        "golden-nugget": "#db8b40",
-        "packing-paper": "#b99b61",
-        succulent: "#8fa781",
-        estragon: "#a7ad77",
-        motherland: "#beb26c",
-        luxurious: "#d4b35f",
+        ink: "#111111",
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 1px)",
+        sm: "calc(var(--radius) - 1px)",
+        tile: "28px",
       },
       keyframes: {
         "accordion-down": {

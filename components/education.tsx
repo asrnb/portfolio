@@ -22,7 +22,7 @@ const education = [
 
 export default function Education() {
   return (
-    <SectionContainer id="education" className="bg-gradient-to-b from-background/95 to-background">
+    <SectionContainer id="education">
       <SectionHeader
         title="Education"
         subtitle="Academic foundation in artificial intelligence, computer science, mobile app development, and web development."
@@ -30,25 +30,30 @@ export default function Education() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {education.map((item) => (
-          <Card key={item.school} className="border-border/60 bg-background/70">
+          <Card key={item.school} className="bg-card">
             <CardContent className="p-6">
               <div className="mb-4 flex items-center justify-between gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="flex h-11 w-11 items-center justify-center rounded-tile bg-muted text-foreground">
                   <GraduationCap className="h-5 w-5" />
                 </div>
-                <Badge className="bg-primary/15 text-primary hover:bg-primary/20">{item.honor}</Badge>
+                <Badge
+                  variant="outline"
+                  className="border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                >
+                  {item.honor}
+                </Badge>
               </div>
 
               <h3 className="text-xl font-semibold">{item.school}</h3>
               <p className="mt-2 text-muted-foreground">{item.program}</p>
 
-              <div className="mt-5 space-y-2 text-sm text-muted-foreground">
+              <div className="mt-5 space-y-2 font-mono text-xs uppercase tracking-[0.05em] text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <Award className="h-4 w-4 text-primary" />
+                  <Award className="h-3.5 w-3.5" />
                   <span>{item.period}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-primary" />
+                  <MapPin className="h-3.5 w-3.5" />
                   <span>{item.location}</span>
                 </div>
               </div>

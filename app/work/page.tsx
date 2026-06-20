@@ -1,8 +1,6 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
-import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedProjects from "@/components/redesigned-projects"
-import GraphicDesignProjects from "@/components/graphic-design-projects"
 import Footer from "@/components/footer"
 import FloatingNav from "@/components/floating-nav"
 import ScrollProgress from "@/components/scroll-progress"
@@ -11,14 +9,14 @@ import { SectionFallback } from "@/components/section-fallback"
 import { Loader2 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Work | April Suarnaba",
-  description: "Professional journey and selected projects by April Suarnaba.",
+  title: "Projects | April Suarnaba",
+  description: "Selected software, AI automation, and design projects by April Suarnaba.",
 }
 
 function LoadingSection({ name }: { name: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20">
-      <Loader2 className="mb-4 h-8 w-8 animate-spin text-primary" />
+      <Loader2 className="mb-4 h-8 w-8 animate-spin text-foreground" />
       <p className="text-muted-foreground">Loading {name} section...</p>
     </div>
   )
@@ -26,36 +24,21 @@ function LoadingSection({ name }: { name: string }) {
 
 export default function WorkPage() {
   return (
-    <main className="min-h-screen bg-background pt-16">
+    <main className="min-h-screen pt-16">
       <ScrollProgress />
       <FloatingNav />
 
       <section className="container mx-auto px-4 py-14 text-center md:py-20">
-        <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-primary">Selected Work</p>
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-normal md:text-5xl">
-          Experience & Projects
-        </h1>
+        <p className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Selected Work</p>
+        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-normal md:text-5xl">Projects</h1>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-          A focused look at my hands-on experience across AI automation, CRM workflows, full-stack development,
-          and practical software projects.
+          A focused look at my software, AI automation, and graphic design work.
         </p>
       </section>
-
-      <ErrorBoundary fallback={<SectionFallback title="Experience" />}>
-        <Suspense fallback={<LoadingSection name="Experience" />}>
-          <RedesignedExperience />
-        </Suspense>
-      </ErrorBoundary>
 
       <ErrorBoundary fallback={<SectionFallback title="Projects" />}>
         <Suspense fallback={<LoadingSection name="Projects" />}>
           <RedesignedProjects />
-        </Suspense>
-      </ErrorBoundary>
-
-      <ErrorBoundary fallback={<SectionFallback title="Graphic Design Projects" />}>
-        <Suspense fallback={<LoadingSection name="Graphic Design Projects" />}>
-          <GraphicDesignProjects />
         </Suspense>
       </ErrorBoundary>
 
