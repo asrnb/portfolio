@@ -19,17 +19,23 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 })
 
+const siteUrl = "https://asrnb.vercel.app"
 const title = "April Suarnaba | AI Engineer"
 const description =
   "Portfolio of April Suarnaba, a software developer focused on AI-powered dashboards, automation workflows, API integrations, and full-stack web applications."
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aprilsuarnaba.com"),
+  metadataBase: new URL(siteUrl),
   title,
   description,
+  alternates: {
+    canonical: siteUrl,
+  },
   openGraph: {
     title,
     description,
+    url: siteUrl,
+    siteName: "April Suarnaba",
     images: ["/april.jpg"],
     type: "website",
   },
@@ -38,6 +44,26 @@ export const metadata: Metadata = {
     title,
     description,
     images: ["/april.jpg"],
+  },
+}
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "April Suarnaba",
+  alternateName: "April G. Suarnaba",
+  url: siteUrl,
+  image: `${siteUrl}/april.jpg`,
+  jobTitle: "AI Engineer",
+  description,
+  sameAs: ["https://github.com/asrnb", "https://ph.linkedin.com/in/aprilsuarnaba"],
+  worksFor: {
+    "@type": "Organization",
+    name: "Callbox Inc.",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "West Visayas State University",
   },
 }
 
@@ -55,6 +81,10 @@ export default function RootLayout({
         {/* Add meta tags for better performance */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body className="theme-transition font-sans" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>

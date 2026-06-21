@@ -50,11 +50,12 @@ function Logo() {
     setIsMounted(true)
   }, [])
 
-  const mark = isMounted && resolvedTheme === "light" ? "/brand/asrnb-mark-black.png" : "/brand/asrnb-mark-white.png"
+  const wordmark =
+    isMounted && resolvedTheme === "light" ? "/brand/asrnb-wordmark-black.png" : "/brand/asrnb-wordmark-white.png"
 
   return (
     <Link href="/" aria-label="Go to homepage" className="flex items-center">
-      <Image src={mark} alt="asrnb." width={108} height={100} className="h-7 w-auto" priority />
+      <Image src={wordmark} alt="asrnb." width={180} height={56} className="h-10 w-auto" priority />
     </Link>
   )
 }

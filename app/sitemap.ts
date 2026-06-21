@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next"
 
-const baseUrl = "https://aprilsuarnaba.com"
+const baseUrl = "https://asrnb.vercel.app"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/work", "/work-with-me"]
+  const routes = ["", "/about", "/work", "/work-with-me"]
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
