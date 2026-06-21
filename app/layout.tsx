@@ -54,7 +54,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "April Suarnaba",
-  alternateName: "April G. Suarnaba",
+  alternateName: "Ma. April G. Suarnaba",
   url: siteUrl,
   image: `${siteUrl}/april.jpg`,
   jobTitle: "AI Engineer",

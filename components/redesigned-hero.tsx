@@ -7,7 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
-import { Github, Linkedin, FileDown } from "lucide-react"
+import { Github, Linkedin, Instagram, FileDown } from "lucide-react"
 import { useIsClient } from "@/hooks/use-is-client"
 
 export default function RedesignedHero() {
@@ -25,7 +25,7 @@ export default function RedesignedHero() {
   // Typing effect for the subtitle
   const [displayedText, setDisplayedText] = useState("")
   const fullText =
-    "Where AI meets practical engineering — I build dashboards, automations, and full-stack tools that actually run business smarter."
+    "Great software isn't about writing every line of code yourself. It's about combining AI with engineering judgment to ship better sofrware faster and help businesses work smarter."
 
   useEffect(() => {
     if (!isClient) return
@@ -65,7 +65,7 @@ export default function RedesignedHero() {
 
         <ScrollReveal delay={0.1}>
           <h1 className="text-2xl sm:text-3xl font-normal mb-3 tracking-tight text-foreground">
-            April G. Suarnaba
+            MA. APRIL G. SUARNABA
           </h1>
         </ScrollReveal>
 
@@ -95,6 +95,15 @@ export default function RedesignedHero() {
             >
               <Linkedin className="h-4 w-4" />
               LinkedIn
+            </a>
+            <a
+              href="https://www.instagram.com/azbdps/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Instagram className="h-4 w-4" />
+              Instagram
             </a>
             <a
               href="/april-suarnaba-resume.pdf"

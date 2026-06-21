@@ -171,6 +171,28 @@ const projects = [
       "Defined a consistent visual and interaction language across screens",
     ],
   },
+  {
+    id: 13,
+    title: "TuklaSEEn",
+    category: "design",
+    description: "UI/UX app design with an interactive Figma prototype.",
+    longDescription:
+      "An application UI/UX design project called TuklaSEEn, designed in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
+    technologies: ["Figma", "UI/UX Design", "Prototyping"],
+    imageUrl: "/placeholder.svg?height=600&width=800",
+    demoUrl:
+      "https://www.figma.com/proto/LZM9lghc147nd1RaHMoBwB/TuklaSEEn-Prototype?node-id=11-130&t=vWAL2a06wzsdVRds-1&starting-point-node-id=11%3A130",
+    githubUrl: "",
+    featured: false,
+    completed: "2025",
+    teamSize: 1,
+    difficulty: 3,
+    achievements: [
+      "Designed the TuklaSEEn app's UI/UX from scratch in Figma",
+      "Built an interactive, clickable prototype for the core user flow",
+      "Defined a consistent visual and interaction language across screens",
+    ],
+  },
 ]
 
 function hasRealImage(imageUrl: string) {
