@@ -3,21 +3,58 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Moon, Sun } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "Projects", href: "/work#projects" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/work" },
   { name: "Work with me", href: "/work-with-me" },
 ]
 
+function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={isDark}
+      aria-label="Toggle color theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-muted transition-colors"
+    >
+      <span
+        className={cn(
+          "flex h-5 w-5 items-center justify-center rounded-full bg-background shadow-sm transition-transform",
+          isDark ? "translate-x-[22px]" : "translate-x-0.5",
+        )}
+      >
+        {isDark ? <Moon className="h-3 w-3" /> : <Sun className="h-3 w-3" />}
+      </span>
+    </button>
+  )
+}
+
 function Logo() {
+  const { resolvedTheme } = useTheme()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const mark = isMounted && resolvedTheme === "light" ? "/brand/asrnb-mark-black.png" : "/brand/asrnb-mark-white.png"
+
   return (
     <Link href="/" aria-label="Go to homepage" className="flex items-center">
-      <Image src="/brand/asrnb-mark-black.png" alt="asrnb." width={108} height={100} className="h-8 w-auto" priority />
+      <Image src={mark} alt="asrnb." width={108} height={100} className="h-7 w-auto" priority />
     </Link>
   )
 }
@@ -25,14 +62,17 @@ function Logo() {
 export default function ResponsiveHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href))
+
   if (!isMounted) {
     return (
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
           <Logo />
           <div className="md:hidden">
@@ -46,23 +86,31 @@ export default function ResponsiveHeader() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between px-4">
         <Logo />
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
+              className={cn(
+                "rounded-full px-4 py-1.5 text-sm transition-colors",
+                isActive(item.href) ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground",
+              )}
             >
               {item.name}
             </Link>
           ))}
         </nav>
 
-        <div className="md:hidden">
+        <div className="hidden md:flex items-center">
+          <ThemeToggle />
+        </div>
+
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
           <Button
             variant="ghost"
             size="icon"
@@ -81,15 +129,18 @@ export default function ResponsiveHeader() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className={cn("md:hidden overflow-hidden border-t border-border bg-background")}
+            className="md:hidden overflow-hidden border-t border-border bg-background"
           >
-            <div className="flex flex-col space-y-4 p-4">
+            <div className="flex flex-col items-start gap-1 p-4">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "w-full rounded-md px-3 py-2 text-sm transition-colors",
+                    isActive(item.href) ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
                   {item.name}
                 </Link>

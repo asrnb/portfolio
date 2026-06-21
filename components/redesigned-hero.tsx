@@ -6,12 +6,9 @@ import { useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
-import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react"
+import { Github, Linkedin, FileDown } from "lucide-react"
 import { useIsClient } from "@/hooks/use-is-client"
-
-const tags = ["AI Automation", "Full-Stack Development", "API Integrations"]
 
 export default function RedesignedHero() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -48,114 +45,78 @@ export default function RedesignedHero() {
   }, [fullText, isClient])
 
   return (
-    <div className="min-h-screen flex items-center">
+    <div className="relative">
       <motion.div
         ref={containerRef}
         style={isClient ? { opacity, y } : {}}
-        className="container mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+        className="container mx-auto px-4 py-10 md:py-14 flex flex-col items-center text-center max-w-xl"
       >
-        {/* Left column - Text content */}
-        <div className="order-2 md:order-1 text-center md:text-left">
-          <ScrollReveal>
-            <Badge
-              variant="outline"
-              className="mb-4 border-border px-3 py-1.5 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground"
+        <ScrollReveal>
+          <div className="relative w-28 h-32 sm:w-32 sm:h-36 -rotate-2 overflow-hidden rounded-xl border border-border bg-card shadow-xl mb-4">
+            <Image
+              src="/april.jpg?v=2026-06-21"
+              alt="April Suarnaba"
+              fill
+              className="object-cover object-[50%_65%]"
+              priority
+            />
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.1}>
+          <h1 className="text-2xl sm:text-3xl font-normal mb-3 tracking-tight text-foreground">
+            April G. Suarnaba
+          </h1>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.2}>
+          <p className="text-sm sm:text-base mb-5 leading-relaxed text-muted-foreground">
+            {displayedText}
+            {isClient && displayedText.length < fullText.length && <span className="animate-pulse">|</span>}
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.3}>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-5">
+            <a
+              href="https://github.com/asrnb"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              AI Engineer
-            </Badge>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 tracking-tight">
-              April Suarnaba
-            </h1>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 leading-relaxed text-muted-foreground">
-              {displayedText}
-              {isClient && displayedText.length < fullText.length && <span className="animate-pulse">|</span>}
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.3}>
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-6 md:mb-8">
-              {tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  className="border-border px-2 py-1 sm:px-3 sm:py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground sm:text-xs"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.4}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mb-6 md:mb-8">
-              <Button size="lg" asChild>
-                <Link href="/work#projects">
-                  View Projects
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/work-with-me">Work with me</Link>
-              </Button>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.5}>
-            <div className="flex gap-2 justify-center md:justify-start">
-              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
-                <a href="https://github.com/asrnb" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <Github className="h-5 w-5" />
-                </a>
-              </Button>
-              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
-                <a
-                  href="https://ph.linkedin.com/in/aprilsuarnaba"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-              </Button>
-              <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
-                <a href="mailto:aprilsuarnaba5@gmail.com" aria-label="Email">
-                  <Mail className="h-5 w-5" />
-                </a>
-              </Button>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Right column - Image */}
-        <div className="order-1 md:order-2 flex justify-center mb-6 md:mb-0">
-          <ScrollReveal direction="left">
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border border-border">
-              <Image src="/april.jpg?v=2026-05-10" alt="April Suarnaba" fill className="object-cover" priority />
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Scroll indicator */}
-        {isClient && (
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full border border-border text-muted-foreground hover:text-foreground"
-              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-              aria-label="Scroll to about section"
+              <Github className="h-4 w-4" />
+              GitHub
+            </a>
+            <a
+              href="https://ph.linkedin.com/in/aprilsuarnaba"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <ArrowDown className="h-4 w-4" />
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </a>
+            <a
+              href="/april-suarnaba-resume.pdf"
+              download="April_Suarnaba_Resume.pdf"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <FileDown className="h-4 w-4" />
+              Resume
+            </a>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.4}>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild>
+              <Link href="/work">View Projects</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/work-with-me">Work with me</Link>
             </Button>
           </div>
-        )}
+        </ScrollReveal>
       </motion.div>
     </div>
   )

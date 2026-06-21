@@ -1,7 +1,9 @@
-import { Award, GraduationCap, MapPin } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+"use client"
+
+import { motion } from "framer-motion"
 import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
+import { ScrollReveal } from "@/components/ui/scroll-reveal"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 const education = [
   {
@@ -23,43 +25,36 @@ const education = [
 export default function Education() {
   return (
     <SectionContainer id="education">
-      <SectionHeader
-        title="Education"
-        subtitle="Academic foundation in artificial intelligence, computer science, mobile app development, and web development."
-      />
+      <div className="mx-auto max-w-2xl">
+        <SectionHeader
+          title="Education"
+          subtitle="Academic foundation in artificial intelligence, computer science, mobile app development, and web development."
+        />
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {education.map((item) => (
-          <Card key={item.school} className="bg-card">
-            <CardContent className="p-6">
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-tile bg-muted text-foreground">
-                  <GraduationCap className="h-5 w-5" />
-                </div>
-                <Badge
-                  variant="outline"
-                  className="border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+        <ScrollReveal>
+          <div className="relative border-l border-border pl-6 space-y-8">
+            {education.map((item, index) => (
+              <ErrorBoundary key={item.school}>
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="relative"
                 >
-                  {item.honor}
-                </Badge>
-              </div>
-
-              <h3 className="text-xl font-semibold">{item.school}</h3>
-              <p className="mt-2 text-muted-foreground">{item.program}</p>
-
-              <div className="mt-5 space-y-2 font-mono text-xs uppercase tracking-[0.05em] text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Award className="h-3.5 w-3.5" />
-                  <span>{item.period}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-3.5 w-3.5" />
-                  <span>{item.location}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                  <span className="absolute -left-[29px] top-1.5 h-2 w-2 rounded-full bg-primary" />
+                  <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                    <h3 className="text-sm font-semibold text-primary">{item.school}</h3>
+                    <span className="text-xs text-muted-foreground shrink-0">{item.period}</span>
+                  </div>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{item.location}</p>
+                  <p className="mt-2 text-sm leading-6">
+                    {item.program} — <span className="text-muted-foreground">{item.honor}</span>
+                  </p>
+                </motion.div>
+              </ErrorBoundary>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </SectionContainer>
   )

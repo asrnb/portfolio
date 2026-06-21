@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
 import { Bot, Code2, Database, PanelsTopLeft, PenTool, Workflow } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 import { SectionContainer, SectionHeader } from "@/components/ui/section-container"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
 import { cn } from "@/lib/utils"
@@ -59,31 +59,24 @@ const techStack: TechItem[] = [
   { name: "Semrush", slug: "semrush" },
 ]
 
-function iconUrl(slug: string) {
-  return `https://cdn.simpleicons.org/${slug}/111111`
-}
-
-function TechLogo({ item }: { item: TechItem }) {
+function TechLogo({ item, iconHex }: { item: TechItem; iconHex: string }) {
   const [hasError, setHasError] = useState(false)
 
   return (
     <div
-      className={cn(
-        "group flex h-20 w-20 shrink-0 items-center justify-center rounded-tile border border-border bg-card p-4",
-        "transition-colors hover:border-foreground/30",
-      )}
+      className="group flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/40"
       title={item.name}
     >
       {hasError ? (
         <span
           aria-label={`${item.name} logo fallback`}
-          className="flex h-10 w-10 items-center justify-center rounded-tile bg-muted font-mono text-xs font-bold text-foreground"
+          className="flex h-10 w-10 items-center justify-center rounded-md bg-muted text-xs font-semibold text-foreground"
         >
           {item.fallback ?? item.name.slice(0, 2)}
         </span>
       ) : (
         <img
-          src={iconUrl(item.slug)}
+          src={`https://cdn.simpleicons.org/${item.slug}/${iconHex}`}
           alt={`${item.name} logo`}
           className="h-10 w-10 object-contain"
           loading="lazy"
@@ -95,53 +88,61 @@ function TechLogo({ item }: { item: TechItem }) {
 }
 
 function TechMarquee() {
+  const { resolvedTheme } = useTheme()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const iconHex = isMounted && resolvedTheme === "light" ? "171717" : "f2f2f2"
   const rowItems = [...techStack, ...techStack]
 
   return (
-    <Card className="mx-auto max-w-6xl overflow-hidden bg-card">
-      <CardContent className="p-0">
-        <div className="border-b border-border p-5">
-          <div className="flex flex-wrap justify-center gap-2">
-            {techCategories.map((category) => {
-              const Icon = category.icon
-              return (
-                <div
-                  key={category.label}
-                  className="flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
-                >
-                  <Icon className="h-3.5 w-3.5 text-foreground" />
-                  {category.label}
-                </div>
-              )
-            })}
-          </div>
+    <>
+      <div className="border-b border-border pb-5">
+        <div className="flex flex-wrap gap-2">
+          {techCategories.map((category) => {
+            const Icon = category.icon
+            return (
+              <div
+                key={category.label}
+                className="flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {category.label}
+              </div>
+            )
+          })}
         </div>
+      </div>
 
-        <div className="relative overflow-hidden py-6">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-card to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-card to-transparent" />
-          <div className="flex w-max gap-3 px-5 motion-reduce:animate-none animate-tech-marquee">
-            {rowItems.map((item, index) => (
-              <TechLogo key={`${item.name}-${index}`} item={item} />
-            ))}
-          </div>
+      <div className="relative overflow-hidden py-6">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent" />
+        <div className="flex w-max gap-3 px-5 motion-reduce:animate-none animate-tech-marquee">
+          {rowItems.map((item, index) => (
+            <TechLogo key={`${item.name}-${index}`} item={item} iconHex={iconHex} />
+          ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   )
 }
 
 export default function RedesignedSkills() {
   return (
     <SectionContainer id="skills">
-      <SectionHeader
-        title="Tech Stack"
-        subtitle="The tools and platforms I use for AI automation, full-stack applications, CRM workflows, and product interfaces."
-      />
+      <div className="mx-auto max-w-2xl">
+        <SectionHeader
+          title="Tech Stack"
+          subtitle="The tools and platforms I use for AI automation, full-stack applications, CRM workflows, and product interfaces."
+        />
 
-      <ScrollReveal>
-        <TechMarquee />
-      </ScrollReveal>
+        <ScrollReveal>
+          <TechMarquee />
+        </ScrollReveal>
+      </div>
     </SectionContainer>
   )
 }

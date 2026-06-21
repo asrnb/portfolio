@@ -1,6 +1,5 @@
 import { Suspense } from "react"
 import RedesignedHero from "@/components/redesigned-hero"
-import AboutSection from "@/components/about-section"
 import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedSkills from "@/components/redesigned-skills"
 import Education from "@/components/education"
@@ -33,27 +32,21 @@ export default function Home() {
         </Suspense>
       </ErrorBoundary>
 
-      <ErrorBoundary fallback={<SectionFallback title="About" />}>
-        <Suspense fallback={<LoadingSection name="About" />}>
-          <AboutSection />
-        </Suspense>
-      </ErrorBoundary>
-
       <ErrorBoundary fallback={<SectionFallback title="Experience" />}>
         <Suspense fallback={<LoadingSection name="Experience" />}>
           <RedesignedExperience />
         </Suspense>
       </ErrorBoundary>
 
-      <ErrorBoundary fallback={<SectionFallback title="Skills" />}>
-        <Suspense fallback={<LoadingSection name="Skills" />}>
-          <RedesignedSkills />
-        </Suspense>
-      </ErrorBoundary>
-
       <ErrorBoundary fallback={<SectionFallback title="Education" />}>
         <Suspense fallback={<LoadingSection name="Education" />}>
           <Education />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary fallback={<SectionFallback title="Skills" />}>
+        <Suspense fallback={<LoadingSection name="Skills" />}>
+          <RedesignedSkills />
         </Suspense>
       </ErrorBoundary>
 

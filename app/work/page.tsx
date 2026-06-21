@@ -28,10 +28,12 @@ export default function WorkPage() {
       <ScrollProgress />
       <FloatingNav />
 
-      <section className="container mx-auto px-4 py-14 text-center md:py-20">
-        <p className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">Selected Work</p>
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-normal md:text-5xl">Projects</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+      <section className="container mx-auto px-4 py-10 text-center md:py-14">
+        <span className="mb-3 inline-block rounded-full bg-primary/15 px-3 py-1.5 text-xs font-medium text-primary">
+          Selected Work
+        </span>
+        <h1 className="mx-auto max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">Projects</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
           A focused look at my software, AI automation, and graphic design work.
         </p>
       </section>

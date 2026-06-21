@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button"
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-t border-border">
       <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
-        <div className="flex items-baseline gap-2 truncate">
-          <span className="font-semibold">April Suarnaba</span>
-          <span className="hidden font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground sm:inline">
-            AI Engineer
-          </span>
+        <div className="flex items-baseline gap-2 truncate text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">April Suarnaba</span>
+          <span className="hidden sm:inline">AI Engineer</span>
         </div>
 
         <div className="flex items-center gap-1">
@@ -35,7 +33,7 @@ export default function Footer() {
           </Button>
         </div>
 
-        <div className="hidden truncate font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground md:block">
+        <div className="hidden truncate text-sm text-muted-foreground md:block">
           © {new Date().getFullYear()} April Suarnaba
         </div>
       </div>

@@ -22,7 +22,7 @@ export function SectionContainer({
   return (
     <Component
       id={id}
-      className={cn("py-16 md:py-24", fullWidth ? "w-full" : "container mx-auto px-4", className)}
+      className={cn("py-10 md:py-16", fullWidth ? "w-full" : "container mx-auto px-4", className)}
       style={style}
       {...props}
     >
@@ -37,26 +37,23 @@ interface SectionHeaderProps {
   align?: "left" | "center" | "right"
   titleClassName?: string
   subtitleClassName?: string
-  decorative?: boolean
 }
 
 export function SectionHeader({
   title,
   subtitle,
-  align = "center",
+  align = "left",
   titleClassName,
   subtitleClassName,
-  decorative = true,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("mb-12", `text-${align}`)}>
-      <h2 className={cn("text-3xl md:text-4xl font-bold relative inline-block", titleClassName)}>
-        {title}
-        {decorative && (
-          <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary/80 to-primary/20 rounded-full" />
-        )}
-      </h2>
-      {subtitle && <p className={cn("mt-4 text-muted-foreground max-w-2xl mx-auto", subtitleClassName)}>{subtitle}</p>}
+    <div className={cn("mb-6", `text-${align}`)}>
+      <h2 className={cn("text-xl font-semibold tracking-tight md:text-2xl", titleClassName)}>{title}</h2>
+      {subtitle && (
+        <p className={cn("mt-2 text-sm text-muted-foreground max-w-2xl", align === "center" && "mx-auto", subtitleClassName)}>
+          {subtitle}
+        </p>
+      )}
     </div>
   )
 }

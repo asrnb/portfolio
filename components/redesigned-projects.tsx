@@ -178,11 +178,7 @@ function hasRealImage(imageUrl: string) {
 }
 
 function DifficultyLabel({ value }: { value: number }) {
-  return (
-    <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-      Difficulty {value}/5
-    </span>
-  )
+  return <span className="text-xs text-muted-foreground">Difficulty {value}/5</span>
 }
 
 export default function RedesignedProjects() {
@@ -269,8 +265,10 @@ export default function RedesignedProjects() {
               <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-2">
                 <div className="flex justify-between items-start">
                   <div>
-                    <Badge className="mb-2 font-mono text-[10px] uppercase tracking-[0.1em]">Project</Badge>
-                    <DialogTitle className="text-xl sm:text-2xl">{selectedProject.title}</DialogTitle>
+                    <Badge className="mb-2">Project</Badge>
+                    <DialogTitle className="text-xl sm:text-2xl font-bold tracking-tight">
+                      {selectedProject.title}
+                    </DialogTitle>
                     <DialogDescription className="mt-2 text-sm">{selectedProject.description}</DialogDescription>
                   </div>
                   <DifficultyLabel value={selectedProject.difficulty} />
@@ -278,14 +276,10 @@ export default function RedesignedProjects() {
               </DialogHeader>
 
               <Tabs defaultValue="overview" className="flex-1 overflow-hidden">
-                <div className="px-4 sm:px-6 border-b border-border">
-                  <TabsList className="justify-start rounded-none bg-transparent h-10">
-                    <TabsTrigger value="overview" className="text-sm">
-                      Overview
-                    </TabsTrigger>
-                    <TabsTrigger value="details" className="text-sm">
-                      Details
-                    </TabsTrigger>
+                <div className="px-4 sm:px-6">
+                  <TabsList>
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="details">Details</TabsTrigger>
                   </TabsList>
                 </div>
 
@@ -293,31 +287,27 @@ export default function RedesignedProjects() {
                   <TabsContent value="overview" className="mt-0 h-full">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       <div className="lg:col-span-2">
-                        <h4 className="text-lg font-semibold mb-3">Project Details</h4>
+                        <h4 className="text-lg font-bold mb-3">Project Details</h4>
                         <p className="mb-6 text-sm sm:text-base text-muted-foreground">
                           {selectedProject.longDescription}
                         </p>
 
-                        <h4 className="text-lg font-semibold mb-3">Key Achievements</h4>
+                        <h4 className="text-lg font-bold mb-3">Key Achievements</h4>
                         <ul className="space-y-2 mb-6">
                           {selectedProject.achievements.map((achievement, i) => (
                             <li key={i} className="flex items-start gap-2">
-                              <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center mt-0.5 flex-shrink-0">
-                                <span className="text-xs text-foreground">✓</span>
+                              <div className="h-5 w-5 rounded-full bg-primary/15 flex items-center justify-center mt-0.5 flex-shrink-0">
+                                <span className="text-xs text-primary">✓</span>
                               </div>
                               <span className="text-sm sm:text-base">{achievement}</span>
                             </li>
                           ))}
                         </ul>
 
-                        <h4 className="text-lg font-semibold mb-3">Technologies</h4>
+                        <h4 className="text-lg font-bold mb-3">Technologies</h4>
                         <div className="flex flex-wrap gap-2 mb-6">
                           {selectedProject.technologies.map((tech, index) => (
-                            <Badge
-                              key={index}
-                              variant="outline"
-                              className="border-border font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
-                            >
+                            <Badge key={index} variant="outline">
                               {tech}
                             </Badge>
                           ))}
@@ -346,22 +336,22 @@ export default function RedesignedProjects() {
                       </div>
 
                       <div>
-                        <h4 className="text-lg font-semibold mb-3">Project Info</h4>
+                        <h4 className="text-lg font-bold mb-3">Project Info</h4>
                         <div className="space-y-4">
                           <div className="flex flex-col">
-                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                               Completed
                             </span>
                             <span>{selectedProject.completed}</span>
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                               Team Size
                             </span>
                             <span>{selectedProject.teamSize} people</span>
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                               Difficulty
                             </span>
                             <span>{selectedProject.difficulty}/5</span>
@@ -372,8 +362,8 @@ export default function RedesignedProjects() {
                   </TabsContent>
 
                   <TabsContent value="details" className="mt-0">
-                    {selectedHasImage ? (
-                      <div className="relative aspect-video mb-6 overflow-hidden rounded-lg">
+                    {selectedHasImage && (
+                      <div className="relative aspect-video mb-6 overflow-hidden rounded-lg border border-border">
                         <Image
                           src={selectedProject.imageUrl}
                           alt={selectedProject.title}
@@ -381,17 +371,11 @@ export default function RedesignedProjects() {
                           className="object-cover"
                         />
                       </div>
-                    ) : (
-                      <div className="mb-6 flex aspect-video items-center justify-center rounded-lg bg-muted">
-                        <span className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
-                          No preview available
-                        </span>
-                      </div>
                     )}
 
                     <div className="space-y-6">
                       <div>
-                        <h4 className="text-lg font-semibold mb-2">Project Description</h4>
+                        <h4 className="text-lg font-bold mb-2">Project Description</h4>
                         <p className="text-sm sm:text-base text-muted-foreground">
                           {selectedProject.longDescription}
                         </p>
@@ -420,7 +404,7 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
   return (
     <Card
-      className="overflow-hidden h-full flex flex-col bg-card transition-shadow duration-300 group"
+      className="overflow-hidden h-full flex flex-col bg-card transition-all duration-150 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -436,12 +420,8 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
             )}
           />
 
-          <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-opacity duration-300 group-hover:bg-foreground/60 group-hover:opacity-100">
-            <Button
-              variant="outline"
-              className="border-background text-background hover:bg-background/10 hover:text-background"
-              onClick={onSelect}
-            >
+          <div className="absolute inset-0 flex items-center justify-center bg-background/0 opacity-0 transition-opacity duration-200 group-hover:bg-background/70 group-hover:opacity-100">
+            <Button variant="secondary" onClick={onSelect}>
               View Details
             </Button>
           </div>
@@ -458,25 +438,16 @@ function ProjectCard({ project, onSelect }: ProjectCardProps) {
 
         <div className="flex flex-wrap gap-1 mb-4 mt-auto">
           {project.technologies.slice(0, 3).map((tech, i) => (
-            <Badge
-              key={i}
-              variant="outline"
-              className="border-border font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground"
-            >
+            <Badge key={i} variant="outline">
               {tech}
             </Badge>
           ))}
           {project.technologies.length > 3 && (
-            <Badge
-              variant="outline"
-              className="border-border font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground"
-            >
-              +{project.technologies.length - 3} more
-            </Badge>
+            <Badge variant="outline">+{project.technologies.length - 3} more</Badge>
           )}
         </div>
 
-        <div className="flex justify-between items-center font-mono text-[10px] uppercase tracking-[0.05em] text-muted-foreground mb-4">
+        <div className="flex justify-between items-center text-xs text-muted-foreground mb-4">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             <span>{project.completed}</span>

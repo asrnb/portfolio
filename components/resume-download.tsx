@@ -24,8 +24,8 @@ export default function ResumeDownload() {
         title: "Resume download started",
         description: "April Suarnaba's resume PDF is downloading.",
         action: (
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-            <CheckCircle className="h-5 w-5 text-foreground" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15">
+            <CheckCircle className="h-5 w-5 text-primary" />
           </div>
         ),
       })
@@ -48,7 +48,7 @@ export default function ResumeDownload() {
 
       {isDownloading && (
         <motion.div
-          className="absolute bottom-0 left-0 h-1 bg-white"
+          className="absolute bottom-0 left-0 h-1 bg-primary-foreground/60"
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{ duration: 0.8 }}
