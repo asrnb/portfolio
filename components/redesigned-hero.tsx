@@ -7,8 +7,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
-import { Github, Linkedin, Instagram, FileDown } from "lucide-react"
+import { Github, Linkedin, Instagram } from "lucide-react"
 import { useIsClient } from "@/hooks/use-is-client"
+import ResumeDownload from "@/components/resume-download"
 
 export default function RedesignedHero() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -70,7 +71,7 @@ export default function RedesignedHero() {
 
         <ScrollReveal delay={0.1}>
           <h1 className="text-2xl sm:text-3xl font-normal mb-3 tracking-tight text-foreground">
-            Ma. April G. Suarnaba
+            April G. Suarnaba
           </h1>
         </ScrollReveal>
 
@@ -107,14 +108,6 @@ export default function RedesignedHero() {
             >
               <Instagram className="h-4 w-4" />
             </a>
-            <a
-              href="/april-suarnaba-resume.pdf"
-              download="April_Suarnaba_Resume.pdf"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <FileDown className="h-4 w-4" />
-              Resume
-            </a>
           </div>
         </ScrollReveal>
 
@@ -123,9 +116,7 @@ export default function RedesignedHero() {
             <Button asChild>
               <Link href="/work">View Projects</Link>
             </Button>
-            {/* <Button variant="outline" asChild>
-              <Link href="/work-with-me">Work with me</Link>
-            </Button> */}
+            <ResumeDownload />
           </div>
         </ScrollReveal>
       </motion.div>
