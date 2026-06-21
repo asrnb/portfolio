@@ -7,7 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ScrollReveal } from "@/components/ui/scroll-reveal"
-import { Github, Linkedin, Instagram } from "lucide-react"
+import { ExternalLink, Github, Linkedin, Instagram } from "lucide-react"
 import { useIsClient } from "@/hooks/use-is-client"
 import ResumeDownload from "@/components/resume-download"
 
@@ -113,10 +113,13 @@ export default function RedesignedHero() {
 
         <ScrollReveal delay={0.4}>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild>
-              <Link href="/work">View Projects</Link>
-            </Button>
             <ResumeDownload />
+            <Button variant="outline" className="gap-2" asChild>
+              <Link href="/work">
+                View Projects
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </ScrollReveal>
       </motion.div>
