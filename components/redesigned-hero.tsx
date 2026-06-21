@@ -112,9 +112,9 @@ export default function RedesignedHero() {
             <Button asChild>
               <Link href="/work">View Projects</Link>
             </Button>
-            <Button variant="outline" asChild>
+            {/* <Button variant="outline" asChild>
               <Link href="/work-with-me">Work with me</Link>
-            </Button>
+            </Button> */}
           </div>
         </ScrollReveal>
       </motion.div>
