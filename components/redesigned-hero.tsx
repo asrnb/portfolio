@@ -25,7 +25,7 @@ export default function RedesignedHero() {
   // Typing effect for the subtitle
   const [displayedText, setDisplayedText] = useState("")
   const fullText =
-    "Great software isn't about writing every line of code yourself. It's about combining AI with engineering to ship better software faster and help businesses work smarter."
+    "Great software isn't about writing every line of code yourself. It's about combining AI with engineering to ship faster and help businesses work smarter."
 
   useEffect(() => {
     if (!isClient) return
