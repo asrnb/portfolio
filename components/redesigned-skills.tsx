@@ -64,13 +64,13 @@ function TechLogo({ item, iconHex }: { item: TechItem; iconHex: string }) {
 
   return (
     <div
-      className="group flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-border bg-card p-4 transition-colors hover:border-primary/40"
+      className="group flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border border-border bg-card p-2.5 transition-colors hover:border-primary/40"
       title={item.name}
     >
       {hasError ? (
         <span
           aria-label={`${item.name} logo fallback`}
-          className="flex h-10 w-10 items-center justify-center rounded-md bg-muted text-xs font-semibold text-foreground"
+          className="flex h-7 w-7 items-center justify-center rounded-md bg-muted text-xs font-semibold text-foreground"
         >
           {item.fallback ?? item.name.slice(0, 2)}
         </span>
@@ -78,7 +78,7 @@ function TechLogo({ item, iconHex }: { item: TechItem; iconHex: string }) {
         <img
           src={`https://cdn.simpleicons.org/${item.slug}/${iconHex}`}
           alt={`${item.name} logo`}
-          className="h-10 w-10 object-contain"
+          className="h-7 w-7 object-contain"
           loading="lazy"
           onError={() => setHasError(true)}
         />
@@ -107,7 +107,7 @@ function TechMarquee() {
             return (
               <div
                 key={category.label}
-                className="flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground"
+                className="flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
               >
                 <Icon className="h-3.5 w-3.5" />
                 {category.label}

@@ -34,12 +34,17 @@ const gallery = [
   {
     src: "/about/IMG_7553.JPG",
     alt: "April riding a tricycle in Iloilo City",
-    caption: "Tricycle rides around Iloilo City.",
+    caption: "Jepneey rides around Iloilo City.",
   },
   {
     src: "/about/IMG_1.jpg",
     alt: "April wearing a face mask on her way to work",
     caption: "Just another commute, mask on.",
+  },
+  {
+    src: "/about/gym-1.JPG",
+    alt: "April at the gym",
+    caption: "Gym sessions to balance out the screen time.",
   },
 ]
 
@@ -67,16 +72,16 @@ const highlights = [
 export default function AboutSection() {
   return (
     <SectionContainer id="about" className="relative">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[280px_1fr] lg:items-center">
         <ScrollReveal>
-          <Card className="overflow-hidden bg-card">
+          <Card className="mx-auto w-full max-w-xs overflow-hidden bg-card lg:max-w-none">
             <CardContent className="p-0">
               <div className="relative aspect-[4/5] w-full bg-muted">
                 <Image
                   src="/about/april-graduation.jpg"
                   alt="April Suarnaba"
                   fill
-                  sizes="(min-width: 1024px) 420px, 90vw"
+                  sizes="(min-width: 1024px) 280px, 70vw"
                   className="object-cover object-top"
                   priority
                 />
@@ -111,17 +116,17 @@ export default function AboutSection() {
 
           <StaggerItem>
             <div>
-              <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Hi, I'm April.</h2>
-              <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
+              <h2 className="text-lg font-semibold tracking-tight md:text-xl">Hi, I'm April.</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
                 I started coding when I was 13 with simple HTML and CSS pages, mostly out of curiosity. Then JavaScript
                 showed me that websites could move, respond, and feel alive - and I was hooked.
               </p>
-              <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
               During Senior High School, I explored mobile and web development, and eventually took up
               Computer Science majoring in Artificial Intelligence in college. Since then, I’ve been building
               AI-powered tools, automations, dashboards, and full-stack applications for businesses.
               </p>
-              <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
               I’ve been in this industry for most of my life now, and honestly, there’s no Plan B for me —
               this is what I genuinely enjoy doing.
               </p>
@@ -167,9 +172,9 @@ export default function AboutSection() {
           <h3 className="text-base font-semibold tracking-tight">Beyond the screen</h3>
           <p className="mt-1 text-sm text-muted-foreground">A few snapshots from outside the code editor.</p>
 
-          <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
+          <div className="mt-5 flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-6 sm:overflow-visible sm:pb-0">
             {gallery.map((item) => (
-              <div key={item.src}>
+              <div key={item.src} className="w-28 flex-shrink-0 snap-start sm:w-auto">
                 <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted">
                   <Image src={item.src} alt={item.alt} fill sizes="180px" className="object-cover" />
                 </div>

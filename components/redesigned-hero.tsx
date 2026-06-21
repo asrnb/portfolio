@@ -25,7 +25,7 @@ export default function RedesignedHero() {
   // Typing effect for the subtitle
   const [displayedText, setDisplayedText] = useState("")
   const fullText =
-    "I build AI-powered dashboards, automation workflows, and full-stack tools that turn practical ideas into useful digital systems."
+    "Where AI meets practical engineering — I build dashboards, automations, and full-stack tools that actually run business smarter."
 
   useEffect(() => {
     if (!isClient) return

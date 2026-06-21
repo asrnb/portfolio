@@ -20,6 +20,15 @@ const education = [
     location: "Kalibo, Aklan, Philippines",
     honor: "With Honors",
   },
+    {
+    school: "Santa Barbara National Comprehensive Highschool",
+    program: "Computer System Servicing",
+    period: "2015 - 2019",
+    location: "Santa Barbara, Iloilo, Philippines",
+        honor: "With Honors",
+
+  },
+
 ]
 
 export default function Education() {
@@ -39,11 +48,11 @@ export default function Education() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="relative"
+                  className="group relative"
                 >
-                  <span className="absolute -left-[29px] top-1.5 h-2 w-2 rounded-full bg-primary" />
+                  <span className="absolute -left-[29px] top-1.5 h-2 w-2 rounded-full bg-primary transition-transform duration-200 group-hover:scale-125" />
                   <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-                    <h3 className="text-sm font-semibold text-primary">{item.school}</h3>
+                    <h3 className="text-sm font-semibold text-primary transition-colors group-hover:text-foreground">{item.school}</h3>
                     <span className="text-xs text-muted-foreground shrink-0">{item.period}</span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted-foreground">{item.location}</p>

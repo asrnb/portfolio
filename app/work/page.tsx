@@ -28,7 +28,7 @@ export default function WorkPage() {
       <ScrollProgress />
       <FloatingNav />
 
-      <section className="container mx-auto px-4 py-10 text-center md:py-14">
+      <section className="container mx-auto px-4 py-10 text-center md:py-16">
         <span className="mb-3 inline-block rounded-full bg-primary/15 px-3 py-1.5 text-xs font-medium text-primary">
           Selected Work
         </span>

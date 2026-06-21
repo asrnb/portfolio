@@ -3,6 +3,7 @@ import RedesignedHero from "@/components/redesigned-hero"
 import RedesignedExperience from "@/components/redesigned-experience"
 import RedesignedSkills from "@/components/redesigned-skills"
 import Education from "@/components/education"
+import WorkWithMeCta from "@/components/work-with-me-cta"
 import Footer from "@/components/footer"
 import FloatingNav from "@/components/floating-nav"
 import ScrollProgress from "@/components/scroll-progress"
@@ -47,6 +48,12 @@ export default function Home() {
       <ErrorBoundary fallback={<SectionFallback title="Skills" />}>
         <Suspense fallback={<LoadingSection name="Skills" />}>
           <RedesignedSkills />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary fallback={<SectionFallback title="Work with me" />}>
+        <Suspense fallback={<LoadingSection name="Work with me" />}>
+          <WorkWithMeCta />
         </Suspense>
       </ErrorBoundary>
 
