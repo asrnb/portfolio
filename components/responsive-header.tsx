@@ -11,10 +11,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Projects", href: "/work" },
-  { name: "Work with me", href: "/work-with-me" },
+  { name: "home", href: "/" },
+  { name: "about", href: "/about" },
+  { name: "projects", href: "/work" },
+  { name: "contact", href: "/work-with-me" },
 ]
 
 function ThemeToggle() {

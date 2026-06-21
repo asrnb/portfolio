@@ -25,7 +25,7 @@ export default function RedesignedHero() {
   // Typing effect for the subtitle
   const [displayedText, setDisplayedText] = useState("")
   const fullText =
-    "Great software isn't about writing every line of code yourself. It's about combining AI with engineering judgment to ship better sofrware faster and help businesses work smarter."
+    "Great software isn't about writing every line of code yourself. It's about combining AI with engineering to ship better software faster and help businesses work smarter."
 
   useEffect(() => {
     if (!isClient) return
@@ -52,7 +52,12 @@ export default function RedesignedHero() {
         className="container mx-auto px-4 py-10 md:py-14 flex flex-col items-center text-center max-w-xl"
       >
         <ScrollReveal>
-          <div className="relative w-28 h-32 sm:w-32 sm:h-36 -rotate-2 overflow-hidden rounded-xl border border-border bg-card shadow-xl mb-4">
+          <motion.div
+            className="relative w-28 h-32 sm:w-32 sm:h-36 overflow-hidden rounded-xl border border-border bg-card shadow-xl mb-4"
+            animate={{ y: [0, -8, 0], rotate: [-2, 1, -2] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            whileHover={{ scale: 1.08, rotate: 0, transition: { duration: 0.3, ease: "easeOut" } }}
+          >
             <Image
               src="/april.jpg?v=2026-06-21"
               alt="April Suarnaba"
@@ -60,12 +65,12 @@ export default function RedesignedHero() {
               className="object-cover object-[50%_65%]"
               priority
             />
-          </div>
+          </motion.div>
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
           <h1 className="text-2xl sm:text-3xl font-normal mb-3 tracking-tight text-foreground">
-            MA. APRIL G. SUARNABA
+            Ma. April G. Suarnaba
           </h1>
         </ScrollReveal>
 

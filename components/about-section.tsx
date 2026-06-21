@@ -71,8 +71,8 @@ const highlights = [
 
 export default function AboutSection() {
   return (
-    <SectionContainer id="about" className="relative">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[280px_1fr] lg:items-center">
+    <SectionContainer id="about" className="relative py-6 md:py-10">
+      <div className="mx-auto grid max-w-6xl gap-5 lg:grid-cols-[260px_1fr] lg:items-center">
         <ScrollReveal>
           <Card className="mx-auto w-full max-w-xs overflow-hidden bg-card lg:max-w-none">
             <CardContent className="p-0">
@@ -96,7 +96,7 @@ export default function AboutSection() {
           </Card>
         </ScrollReveal>
 
-        <StaggeredContainer className="space-y-7">
+        <StaggeredContainer className="space-y-4">
           <StaggerItem>
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="gap-1.5">
@@ -117,16 +117,16 @@ export default function AboutSection() {
           <StaggerItem>
             <div>
               <h2 className="text-lg font-semibold tracking-tight md:text-xl">Hi, I'm April.</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
                 I started coding when I was 13 with simple HTML and CSS pages, mostly out of curiosity. Then JavaScript
                 showed me that websites could move, respond, and feel alive - and I was hooked.
               </p>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
               During Senior High School, I explored mobile and web development, and eventually took up
               Computer Science majoring in Artificial Intelligence in college. Since then, I’ve been building
               AI-powered tools, automations, dashboards, and full-stack applications for businesses.
               </p>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
               I’ve been in this industry for most of my life now, and honestly, there’s no Plan B for me —
               this is what I genuinely enjoy doing.
               </p>
@@ -139,13 +139,13 @@ export default function AboutSection() {
                 const Icon = item.icon
                 return (
                   <Card key={item.label} className="bg-card">
-                    <CardContent className="p-4">
-                      <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-muted text-primary">
-                        <Icon className="h-4 w-4" />
+                    <CardContent className="p-3">
+                      <div className="mb-2 flex h-7 w-7 items-center justify-center rounded-md bg-muted text-primary">
+                        <Icon className="h-3.5 w-3.5" />
                       </div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">{item.label}</p>
-                      <p className="mt-1 font-semibold">{item.value}</p>
-                      <p className="mt-1 text-xs leading-5 text-muted-foreground">{item.detail}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{item.label}</p>
+                      <p className="mt-0.5 text-sm font-semibold">{item.value}</p>
+                      <p className="mt-0.5 text-xs leading-4 text-muted-foreground">{item.detail}</p>
                     </CardContent>
                   </Card>
                 )
@@ -168,17 +168,25 @@ export default function AboutSection() {
       </div>
 
       <ScrollReveal delay={0.1}>
-        <div className="mx-auto mt-12 max-w-6xl border-t border-border pt-8">
+        <div className="mx-auto mt-6 max-w-6xl border-t border-border pt-5">
           <h3 className="text-base font-semibold tracking-tight">Beyond the screen</h3>
           <p className="mt-1 text-sm text-muted-foreground">A few snapshots from outside the code editor.</p>
 
-          <div className="mt-5 flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-6 sm:overflow-visible sm:pb-0">
+          <div className="mt-5 flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
             {gallery.map((item) => (
-              <div key={item.src} className="w-28 flex-shrink-0 snap-start sm:w-auto">
-                <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted">
-                  <Image src={item.src} alt={item.alt} fill sizes="180px" className="object-cover" />
+              <div key={item.src} className="group w-28 flex-shrink-0 snap-start">
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted transition-colors group-hover:border-primary/40">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="112px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
                 </div>
-                <p className="mt-1.5 text-xs leading-4 text-muted-foreground">{item.caption}</p>
+                <p className="mt-1.5 text-xs leading-4 text-muted-foreground transition-colors group-hover:text-foreground">
+                  {item.caption}
+                </p>
               </div>
             ))}
           </div>
