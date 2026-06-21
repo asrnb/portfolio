@@ -25,25 +25,25 @@ export default function WorkWithMeCta() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <h2 className="text-lg font-semibold tracking-tight md:text-xl">Work with me</h2>
-          <p className="mt-2 text-sm leading-7 text-muted-foreground">
-            Got a project, automation, or dashboard idea? I'd love to hear about it.
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Work with me</h2>
+          <p className="mt-3 text-base leading-7 text-muted-foreground md:text-lg">
+            Got a project, automation, or workflow idea? I'd love to hear about it.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
           <a
             href="mailto:aprilsuarnaba5@gmail.com"
-            className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:text-primary"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-base font-medium transition-colors hover:border-primary/40 hover:text-primary"
           >
-            <Mail className="h-4 w-4" />
+            <Mail className="h-5 w-5" />
             aprilsuarnaba5@gmail.com
           </a>
         </ScrollReveal>
 
         <ScrollReveal delay={0.3}>
-          <div className="mt-6">
-            <Button className="gap-2" asChild>
+          <div className="mt-7">
+            <Button size="lg" className="gap-2" asChild>
               <Link href="/work-with-me">
                 Get in touch
                 <ExternalLink className="h-4 w-4" />

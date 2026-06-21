@@ -68,7 +68,8 @@ export default function ResponsiveHeader() {
     setIsMounted(true)
   }, [])
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href))
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`)
 
   if (!isMounted) {
     return (
