@@ -34,9 +34,8 @@ export default function WorkWithMeCta() {
         <ScrollReveal delay={0.2}>
           <a
             href="mailto:aprilsuarnaba5@gmail.com"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-base font-medium transition-colors hover:border-primary/40 hover:text-primary"
+            className="mt-6 inline-block text-xl font-medium underline underline-offset-4 transition-colors hover:text-primary md:text-2xl"
           >
-            <Mail className="h-5 w-5" />
             aprilsuarnaba5@gmail.com
           </a>
         </ScrollReveal>

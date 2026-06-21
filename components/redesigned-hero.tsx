@@ -90,7 +90,6 @@ export default function RedesignedHero() {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <Github className="h-4 w-4" />
-              GitHub
             </a>
             <a
               href="https://ph.linkedin.com/in/aprilsuarnaba"
@@ -99,7 +98,6 @@ export default function RedesignedHero() {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <Linkedin className="h-4 w-4" />
-              LinkedIn
             </a>
             <a
               href="https://www.instagram.com/azbdps/"
@@ -108,7 +106,6 @@ export default function RedesignedHero() {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <Instagram className="h-4 w-4" />
-              Instagram
             </a>
             <a
               href="/april-suarnaba-resume.pdf"

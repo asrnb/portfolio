@@ -18,7 +18,7 @@ const techCategories = [
   { label: "Languages", icon: Code2 },
   { label: "Frameworks", icon: PanelsTopLeft },
   { label: "AI / ML", icon: Workflow },
-  { label: "Data / Backend", icon: Database },
+  { label: "Backend", icon: Database },
   { label: "Design / Workflow", icon: PenTool },
 ]
 
