@@ -26,6 +26,20 @@ const bookAppointmentArgsSchema = z.object({
   topic: z.string().trim().min(1).max(300),
 })
 
+const ALLOWED_HOSTS = new Set(["asrnb.vercel.app", "aprilsuarnaba.com", "localhost:3000"])
+if (process.env.VERCEL_URL) ALLOWED_HOSTS.add(process.env.VERCEL_URL)
+
+function isAllowedOrigin(request: Request) {
+  const origin = request.headers.get("origin")
+  if (!origin) return true
+
+  try {
+    return ALLOWED_HOSTS.has(new URL(origin).host)
+  } catch {
+    return false
+  }
+}
+
 const RATE_LIMIT_WINDOW_MS = 60_000
 const RATE_LIMIT_MAX_REQUESTS = 10
 const rateLimitState = new Map<string, { count: number; resetAt: number }>()
@@ -351,6 +365,10 @@ async function callGroq(apiKey: string, messages: unknown[]) {
 }
 
 export async function POST(request: Request) {
+  if (!isAllowedOrigin(request)) {
+    return NextResponse.json({ error: "Forbidden." }, { status: 403 })
+  }
+
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
 
   if (isRateLimited(ip)) {
