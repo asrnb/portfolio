@@ -97,8 +97,10 @@ export default function Chatbot() {
                 </div>
               ))}
               {sending && (
-                <div className="max-w-[85%] rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
-                  Typing...
+                <div className="flex max-w-[85%] items-center gap-1 rounded-lg bg-muted px-3 py-2.5">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
                 </div>
               )}
               <div ref={scrollRef} />
