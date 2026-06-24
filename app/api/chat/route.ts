@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
+import crypto from "crypto"
 
 const chatSchema = z.object({
   messages: z
@@ -13,7 +14,58 @@ const chatSchema = z.object({
     .max(20),
 })
 
-const systemPrompt = `You are the portfolio chatbot for April Suarnaba, an AI Engineer based in Iloilo City, Philippines.
+const TIMEZONE = "Asia/Manila"
+const TIMEZONE_OFFSET = "+08:00"
+const BUSINESS_START_HOUR = 9
+const BUSINESS_END_HOUR = 18
+const MEETING_MINUTES = 30
+const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+const tools = [
+  {
+    type: "function",
+    function: {
+      name: "check_availability",
+      description:
+        "Check available 30-minute meeting slots with April on a given weekday (weekdays only, 9am-6pm Asia/Manila time). Returns a list of open start times.",
+      parameters: {
+        type: "object",
+        properties: {
+          date: { type: "string", description: "Date in YYYY-MM-DD format" },
+        },
+        required: ["date"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "book_appointment",
+      description:
+        "Book a 30-minute call with April at a specific date and time. Only call this after the visitor has confirmed an exact available slot, their name, and their email.",
+      parameters: {
+        type: "object",
+        properties: {
+          date: { type: "string", description: "YYYY-MM-DD" },
+          time: { type: "string", description: "24-hour HH:mm, Asia/Manila time, must be a slot returned by check_availability" },
+          name: { type: "string", description: "Visitor's full name" },
+          email: { type: "string", description: "Visitor's email address" },
+          topic: { type: "string", description: "Short topic or reason for the call" },
+        },
+        required: ["date", "time", "name", "email", "topic"],
+      },
+    },
+  },
+]
+
+function buildSystemPrompt() {
+  const manilaNow = new Date(Date.now() + 8 * 60 * 60 * 1000)
+  const today = manilaNow.toISOString().slice(0, 10)
+  const todayWeekday = WEEKDAY_NAMES[manilaNow.getUTCDay()]
+
+  return `You are the portfolio chatbot for April Suarnaba, an AI Engineer based in Iloilo City, Philippines.
+
+Today's date is ${today} (${todayWeekday}), timezone Asia/Manila.
 
 Bio:
 - Started coding at 13 with HTML/CSS, then JavaScript, then explored mobile and web development in senior high.
@@ -47,7 +99,220 @@ Projects:
 - BizGen GPT — Streamlit app using OpenAI GPT to generate business ideas for entrepreneurs.
 - Luminance, Sa-kai, TuklaSEEn — UI/UX app design projects with interactive Figma prototypes.
 
-Answer visitor questions about April's background, education, experience, skills, and projects in a friendly, concise way. If asked something unrelated to April or her work, politely decline and steer the conversation back to her portfolio. Keep replies short (a few sentences).`
+Answer visitor questions about April's background, education, experience, skills, and projects in a friendly, concise way. If asked something unrelated to April or her work, politely decline and steer the conversation back to her portfolio. Keep replies short (a few sentences).
+
+You can also book a 30-minute call with April for visitors who want to talk (e.g. about hiring her). Meetings are only available on weekdays, 9am-6pm Asia/Manila time. Use check_availability before proposing times — never guess open slots. Before calling book_appointment, make sure you have the visitor's name, email, a short topic, and an exact slot they've confirmed from check_availability. If booking tools report that scheduling isn't configured, apologize and direct the visitor to email April directly instead.`
+}
+
+function base64url(input: Buffer | string) {
+  return Buffer.from(input).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+}
+
+async function getGoogleAccessToken(): Promise<string | null> {
+  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
+  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n")
+
+  if (!clientEmail || !privateKey) return null
+
+  const now = Math.floor(Date.now() / 1000)
+  const header = { alg: "RS256", typ: "JWT" }
+  const claims = {
+    iss: clientEmail,
+    scope: "https://www.googleapis.com/auth/calendar",
+    aud: "https://oauth2.googleapis.com/token",
+    iat: now,
+    exp: now + 3600,
+  }
+
+  const unsigned = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claims))}`
+  const signer = crypto.createSign("RSA-SHA256")
+  signer.update(unsigned)
+  const signature = base64url(signer.sign(privateKey))
+  const assertion = `${unsigned}.${signature}`
+
+  const response = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion,
+    }),
+  })
+
+  if (!response.ok) return null
+
+  const data = await response.json()
+  return data.access_token as string
+}
+
+function getWeekday(dateStr: string) {
+  const [year, month, day] = dateStr.split("-").map(Number)
+  return new Date(Date.UTC(year, month - 1, day)).getUTCDay()
+}
+
+function manilaIso(dateStr: string, hour: number, minute: number) {
+  const hh = String(hour).padStart(2, "0")
+  const mm = String(minute).padStart(2, "0")
+  return `${dateStr}T${hh}:${mm}:00${TIMEZONE_OFFSET}`
+}
+
+async function checkAvailability(date: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return { error: "Date must be in YYYY-MM-DD format." }
+  }
+
+  const weekday = getWeekday(date)
+  if (weekday === 0 || weekday === 6) {
+    return { available: [], note: "That date is a weekend. April only takes calls on weekdays." }
+  }
+
+  const accessToken = await getGoogleAccessToken()
+  const calendarId = process.env.GOOGLE_CALENDAR_ID
+
+  if (!accessToken || !calendarId) {
+    return { error: "Scheduling is not configured yet. Direct the visitor to email April directly." }
+  }
+
+  const response = await fetch("https://www.googleapis.com/calendar/v3/freeBusy", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      timeMin: manilaIso(date, 0, 0),
+      timeMax: manilaIso(date, 23, 59),
+      timeZone: TIMEZONE,
+      items: [{ id: calendarId }],
+    }),
+  })
+
+  if (!response.ok) {
+    return { error: "Could not reach the calendar right now." }
+  }
+
+  const data = await response.json()
+  const busy: { start: string; end: string }[] = data?.calendars?.[calendarId]?.busy ?? []
+
+  const available: string[] = []
+  for (let hour = BUSINESS_START_HOUR; hour < BUSINESS_END_HOUR; hour++) {
+    for (const minute of [0, 30]) {
+      const slotStart = new Date(manilaIso(date, hour, minute))
+      const slotEnd = new Date(slotStart.getTime() + MEETING_MINUTES * 60 * 1000)
+
+      const overlaps = busy.some((b) => slotStart < new Date(b.end) && slotEnd > new Date(b.start))
+      if (!overlaps) {
+        available.push(`${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`)
+      }
+    }
+  }
+
+  return { date, available }
+}
+
+async function sendConfirmationEmail(args: { name: string; email: string; date: string; time: string; topic: string }) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) return
+
+  const fromEmail = process.env.CONTACT_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>"
+  const toEmail = process.env.CONTACT_TO_EMAIL || "aprilsuarnaba5@gmail.com"
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: fromEmail,
+      to: [toEmail],
+      reply_to: args.email,
+      subject: `Call booked: ${args.name} on ${args.date} at ${args.time}`,
+      text: [
+        `A call was booked through the portfolio chatbot.`,
+        "",
+        `Name: ${args.name}`,
+        `Email: ${args.email}`,
+        `Date: ${args.date}`,
+        `Time: ${args.time} (Asia/Manila)`,
+        `Topic: ${args.topic}`,
+      ].join("\n"),
+    }),
+  }).catch((error) => {
+    console.error("Resend confirmation email failed:", error)
+    return null
+  })
+
+  if (response && !response.ok) {
+    console.error("Resend confirmation email rejected:", response.status, await response.text())
+  }
+}
+
+async function bookAppointment(args: { date: string; time: string; name: string; email: string; topic: string }) {
+  const { date, time, name, email, topic } = args
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time)) {
+    return { error: "Invalid date or time format." }
+  }
+
+  const accessToken = await getGoogleAccessToken()
+  const calendarId = process.env.GOOGLE_CALENDAR_ID
+
+  if (!accessToken || !calendarId) {
+    return { error: "Scheduling is not configured yet. Direct the visitor to email April directly." }
+  }
+
+  const [hour, minute] = time.split(":").map(Number)
+  const startIso = manilaIso(date, hour, minute)
+  const endIso = new Date(new Date(startIso).getTime() + MEETING_MINUTES * 60 * 1000).toISOString()
+
+  const response = await fetch(
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        summary: `Call with ${name}`,
+        description: `Booked via portfolio chatbot.\nTopic: ${topic}\nVisitor email: ${email}`,
+        start: { dateTime: startIso, timeZone: TIMEZONE },
+        end: { dateTime: endIso, timeZone: TIMEZONE },
+      }),
+    },
+  )
+
+  if (!response.ok) {
+    return { error: "Could not create the calendar event." }
+  }
+
+  await sendConfirmationEmail({ name, email, date, time, topic })
+
+  return { confirmed: true, date, time, timezone: TIMEZONE }
+}
+
+async function runTool(name: string, args: Record<string, string>) {
+  if (name === "check_availability") return checkAvailability(args.date)
+  if (name === "book_appointment") {
+    return bookAppointment({
+      date: args.date,
+      time: args.time,
+      name: args.name,
+      email: args.email,
+      topic: args.topic,
+    })
+  }
+  return { error: "Unknown tool." }
+}
+
+async function callGroq(apiKey: string, messages: unknown[]) {
+  return fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages,
+      tools,
+      temperature: 0.5,
+      max_tokens: 300,
+    }),
+  })
+}
 
 export async function POST(request: Request) {
   const payload = await request.json().catch(() => null)
@@ -66,30 +331,41 @@ export async function POST(request: Request) {
     )
   }
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [{ role: "system", content: systemPrompt }, ...parsed.data.messages],
-      temperature: 0.5,
-      max_tokens: 300,
-    }),
-  })
+  const conversation: unknown[] = [{ role: "system", content: buildSystemPrompt() }, ...parsed.data.messages]
 
-  if (!response.ok) {
-    return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+  for (let iteration = 0; iteration < 4; iteration++) {
+    const response = await callGroq(apiKey, conversation)
+
+    if (!response.ok) {
+      return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+    }
+
+    const data = await response.json()
+    const message = data?.choices?.[0]?.message
+
+    if (!message) {
+      return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+    }
+
+    if (!message.tool_calls?.length) {
+      if (!message.content) {
+        return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+      }
+      return NextResponse.json({ reply: message.content })
+    }
+
+    conversation.push(message)
+
+    for (const toolCall of message.tool_calls) {
+      const args = JSON.parse(toolCall.function.arguments || "{}")
+      const result = await runTool(toolCall.function.name, args)
+      conversation.push({
+        role: "tool",
+        tool_call_id: toolCall.id,
+        content: JSON.stringify(result),
+      })
+    }
   }
 
-  const data = await response.json()
-  const reply = data?.choices?.[0]?.message?.content
-
-  if (!reply) {
-    return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
-  }
-
-  return NextResponse.json({ reply })
+  return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
 }
