@@ -68,7 +68,7 @@ export default function Chatbot() {
   return (
     <div className="fixed bottom-5 right-5 z-50">
       {open && (
-        <Card className="mb-3 flex h-[28rem] w-80 flex-col overflow-hidden bg-card shadow-xl sm:w-96">
+        <Card className="flex h-[28rem] w-80 flex-col overflow-hidden bg-card shadow-xl sm:w-96">
           <div className="flex items-center justify-between border-b border-border p-3">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary">
@@ -126,13 +126,15 @@ export default function Chatbot() {
         </Card>
       )}
 
-      <Button
-        size="icon"
-        className="h-12 w-12 rounded-full shadow-lg"
-        onClick={() => setOpen((value) => !value)}
-      >
-        {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
-      </Button>
+      {!open && (
+        <Button
+          size="icon"
+          className="h-12 w-12 rounded-full shadow-lg"
+          onClick={() => setOpen(true)}
+        >
+          <MessageCircle className="h-5 w-5" />
+        </Button>
+      )}
     </div>
   )
 }
