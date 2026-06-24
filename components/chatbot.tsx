@@ -140,17 +140,19 @@ export default function Chatbot() {
       )}
 
       {!open && showHint && (
-        <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-lg animate-in fade-in slide-in-from-bottom-2">
-          <button onClick={openChat} className="text-sm font-medium">
-            Chat about April 👋
-          </button>
-          <button
-            aria-label="Dismiss"
-            onClick={() => setShowHint(false)}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
+        <div className="animate-in fade-in slide-in-from-bottom-2">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-lg animate-chat-hint-float">
+            <button onClick={openChat} className="text-sm font-medium">
+              Chat about April 👋
+            </button>
+            <button
+              aria-label="Dismiss"
+              onClick={() => setShowHint(false)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
       )}
 

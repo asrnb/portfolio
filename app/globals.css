@@ -123,6 +123,16 @@
   }
 }
 
+@keyframes chatHintFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -141,6 +151,10 @@
 
 .animate-tech-marquee-reverse {
   animation: techMarqueeReverse 70s linear infinite;
+}
+
+.animate-chat-hint-float {
+  animation: chatHintFloat 2.5s ease-in-out infinite;
 }
 
 /* Staggered animations */
