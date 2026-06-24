@@ -14,6 +14,35 @@ const chatSchema = z.object({
     .max(20),
 })
 
+const checkAvailabilityArgsSchema = z.object({
+  date: z.string(),
+})
+
+const bookAppointmentArgsSchema = z.object({
+  date: z.string(),
+  time: z.string(),
+  name: z.string().trim().min(1).max(120),
+  email: z.string().trim().email().max(180),
+  topic: z.string().trim().min(1).max(300),
+})
+
+const RATE_LIMIT_WINDOW_MS = 60_000
+const RATE_LIMIT_MAX_REQUESTS = 10
+const rateLimitState = new Map<string, { count: number; resetAt: number }>()
+
+function isRateLimited(ip: string) {
+  const now = Date.now()
+  const entry = rateLimitState.get(ip)
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitState.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+    return false
+  }
+
+  entry.count += 1
+  return entry.count > RATE_LIMIT_MAX_REQUESTS
+}
+
 const TIMEZONE = "Asia/Manila"
 const TIMEZONE_OFFSET = "+08:00"
 const BUSINESS_START_HOUR = 9
@@ -288,17 +317,19 @@ async function bookAppointment(args: { date: string; time: string; name: string;
   return { confirmed: true, date, time, timezone: TIMEZONE }
 }
 
-async function runTool(name: string, args: Record<string, string>) {
-  if (name === "check_availability") return checkAvailability(args.date)
-  if (name === "book_appointment") {
-    return bookAppointment({
-      date: args.date,
-      time: args.time,
-      name: args.name,
-      email: args.email,
-      topic: args.topic,
-    })
+async function runTool(name: string, args: Record<string, unknown>) {
+  if (name === "check_availability") {
+    const parsed = checkAvailabilityArgsSchema.safeParse(args)
+    if (!parsed.success) return { error: "Invalid arguments for check_availability." }
+    return checkAvailability(parsed.data.date)
   }
+
+  if (name === "book_appointment") {
+    const parsed = bookAppointmentArgsSchema.safeParse(args)
+    if (!parsed.success) return { error: "Invalid or missing booking details. Ask the visitor for a valid name, email, and topic." }
+    return bookAppointment(parsed.data)
+  }
+
   return { error: "Unknown tool." }
 }
 
@@ -320,6 +351,12 @@ async function callGroq(apiKey: string, messages: unknown[]) {
 }
 
 export async function POST(request: Request) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: "Too many messages. Please wait a moment and try again." }, { status: 429 })
+  }
+
   const payload = await request.json().catch(() => null)
   const parsed = chatSchema.safeParse(payload)
 
