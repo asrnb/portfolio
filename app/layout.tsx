@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import ResponsiveHeader from "@/components/responsive-header"
 import ParticlesBackground from "@/components/particles-background"
+import Chatbot from "@/components/chatbot"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -94,6 +95,7 @@ export default function RootLayout({
           <ParticlesBackground />
           <ResponsiveHeader />
           {children}
+          <Chatbot />
           <Toaster />
         </ThemeProvider>
       </body>
