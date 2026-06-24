@@ -20,6 +20,7 @@ const initialMessage: Message = {
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false)
+  const [showHint, setShowHint] = useState(false)
   const [messages, setMessages] = useState<Message[]>([initialMessage])
   const [input, setInput] = useState("")
   const [sending, setSending] = useState(false)
@@ -29,6 +30,16 @@ export default function Chatbot() {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [messages, open])
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(true), 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  function openChat() {
+    setOpen(true)
+    setShowHint(false)
+  }
 
   async function sendMessage() {
     const content = input.trim()
@@ -66,7 +77,7 @@ export default function Chatbot() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       {open && (
         <Card className="flex h-[28rem] w-80 flex-col overflow-hidden bg-card shadow-xl sm:w-96">
           <div className="flex items-center justify-between border-b border-border p-3">
@@ -128,11 +139,26 @@ export default function Chatbot() {
         </Card>
       )}
 
+      {!open && showHint && (
+        <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-lg animate-in fade-in slide-in-from-bottom-2">
+          <button onClick={openChat} className="text-sm font-medium">
+            Chat about April 👋
+          </button>
+          <button
+            aria-label="Dismiss"
+            onClick={() => setShowHint(false)}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
+
       {!open && (
         <Button
           size="icon"
           className="h-12 w-12 rounded-full shadow-lg"
-          onClick={() => setOpen(true)}
+          onClick={openChat}
         >
           <MessageCircle className="h-5 w-5" />
         </Button>
