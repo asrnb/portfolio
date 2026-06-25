@@ -383,8 +383,70 @@ async function streamGroqRound(
   const reader = response.body.getReader()
   const decoder = new TextDecoder()
   const toolCallsByIndex: Record<number, StreamedToolCall> = {}
+  const leakedToolCalls: StreamedToolCall[] = []
   let content = ""
   let buffer = ""
+
+  // Some Llama models occasionally leak tool calls as literal text
+  // (`<function=name>{...}</function>`) inside the content stream instead of
+  // the structured tool_calls field. Buffer content until we can rule out
+  // that it's the start of this pattern, so it never reaches the visitor.
+  const FUNCTION_TAG_PREFIX = "<function="
+  const FUNCTION_TAG_CLOSE = "</function>"
+  let pending = ""
+  let inLeakedTag = false
+  let leakedTagBuffer = ""
+
+  function extractLeakedCall(tagText: string) {
+    const match = tagText.match(/<function=([^>]+)>([\s\S]*)<\/function>/)
+    if (match) {
+      leakedToolCalls.push({ id: `leaked-${leakedToolCalls.length}`, name: match[1], arguments: match[2] })
+    }
+  }
+
+  function handleContentDelta(text: string) {
+    if (inLeakedTag) {
+      leakedTagBuffer += text
+      const closeIndex = leakedTagBuffer.indexOf(FUNCTION_TAG_CLOSE)
+      if (closeIndex === -1) return
+
+      extractLeakedCall(leakedTagBuffer.slice(0, closeIndex + FUNCTION_TAG_CLOSE.length))
+      const remainder = leakedTagBuffer.slice(closeIndex + FUNCTION_TAG_CLOSE.length)
+      inLeakedTag = false
+      leakedTagBuffer = ""
+      if (remainder) handleContentDelta(remainder)
+      return
+    }
+
+    pending += text
+
+    while (pending.length > 0) {
+      if (pending.startsWith(FUNCTION_TAG_PREFIX)) {
+        inLeakedTag = true
+        leakedTagBuffer = pending
+        pending = ""
+        const closeIndex = leakedTagBuffer.indexOf(FUNCTION_TAG_CLOSE)
+        if (closeIndex === -1) return
+
+        extractLeakedCall(leakedTagBuffer.slice(0, closeIndex + FUNCTION_TAG_CLOSE.length))
+        const remainder = leakedTagBuffer.slice(closeIndex + FUNCTION_TAG_CLOSE.length)
+        inLeakedTag = false
+        leakedTagBuffer = ""
+        if (!remainder) return
+        pending = remainder
+        continue
+      }
+
+      if (FUNCTION_TAG_PREFIX.startsWith(pending)) {
+        // could still become the tag prefix with more characters — hold and wait
+        return
+      }
+
+      content += pending
+      onContent(pending)
+      pending = ""
+    }
+  }
 
   while (true) {
     const { done, value } = await reader.read()
@@ -411,8 +473,7 @@ async function streamGroqRound(
       const delta = json?.choices?.[0]?.delta
 
       if (delta?.content) {
-        content += delta.content
-        onContent(delta.content)
+        handleContentDelta(delta.content)
       }
 
       if (delta?.tool_calls) {
@@ -427,7 +488,12 @@ async function streamGroqRound(
     }
   }
 
-  const toolCalls = Object.values(toolCallsByIndex).filter((tc) => tc.id && tc.name)
+  if (pending && !inLeakedTag) {
+    content += pending
+    onContent(pending)
+  }
+
+  const toolCalls = [...Object.values(toolCallsByIndex).filter((tc) => tc.id && tc.name), ...leakedToolCalls]
   return { content, toolCalls, ok: true }
 }
 
