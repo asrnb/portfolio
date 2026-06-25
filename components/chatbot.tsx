@@ -24,6 +24,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([initialMessage])
   const [input, setInput] = useState("")
   const [sending, setSending] = useState(false)
+  const [streamStarted, setStreamStarted] = useState(false)
   const [error, setError] = useState("")
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -49,6 +50,7 @@ export default function Chatbot() {
     setMessages(nextMessages)
     setInput("")
     setSending(true)
+    setStreamStarted(false)
     setError("")
 
     const response = await fetch("/api/chat", {
@@ -57,15 +59,43 @@ export default function Chatbot() {
       body: JSON.stringify({ messages: nextMessages }),
     })
 
-    if (!response.ok) {
+    if (!response.ok || !response.body) {
       const data = await response.json().catch(() => null)
       setError(data?.error || "Something went wrong. Please try again later.")
       setSending(false)
       return
     }
 
-    const data = await response.json()
-    setMessages([...nextMessages, { role: "assistant", content: data.reply }])
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let started = false
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        if (!chunk) continue
+
+        if (!started) {
+          started = true
+          setStreamStarted(true)
+          setMessages((prev) => [...prev, { role: "assistant", content: chunk }])
+        } else {
+          setMessages((prev) => {
+            const updated = [...prev]
+            const last = updated[updated.length - 1]
+            updated[updated.length - 1] = { ...last, content: last.content + chunk }
+            return updated
+          })
+        }
+      }
+    } catch {
+      // network drop mid-stream, fall through to the !started check below
+    }
+
+    if (!started) setError("Something went wrong. Please try again later.")
     setSending(false)
   }
 
@@ -107,7 +137,7 @@ export default function Chatbot() {
                   {message.content}
                 </div>
               ))}
-              {sending && (
+              {sending && !streamStarted && (
                 <div className="flex max-w-[85%] items-center gap-1 rounded-lg bg-muted px-3 py-2.5">
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />

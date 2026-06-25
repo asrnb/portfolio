@@ -347,8 +347,20 @@ async function runTool(name: string, args: Record<string, unknown>) {
   return { error: "Unknown tool." }
 }
 
-async function callGroq(apiKey: string, messages: unknown[]) {
-  return fetch("https://api.groq.com/openai/v1/chat/completions", {
+type StreamedToolCall = { id?: string; name?: string; arguments: string }
+
+type GroqRoundResult = {
+  content: string
+  toolCalls: StreamedToolCall[]
+  ok: boolean
+}
+
+async function streamGroqRound(
+  apiKey: string,
+  messages: unknown[],
+  onContent: (text: string) => void,
+): Promise<GroqRoundResult> {
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -360,8 +372,63 @@ async function callGroq(apiKey: string, messages: unknown[]) {
       tools,
       temperature: 0.5,
       max_tokens: 300,
+      stream: true,
     }),
   })
+
+  if (!response.ok || !response.body) {
+    return { content: "", toolCalls: [], ok: false }
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  const toolCallsByIndex: Record<number, StreamedToolCall> = {}
+  let content = ""
+  let buffer = ""
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split("\n")
+    buffer = lines.pop() ?? ""
+
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed.startsWith("data:")) continue
+
+      const data = trimmed.slice(5).trim()
+      if (data === "[DONE]") continue
+
+      let json: any
+      try {
+        json = JSON.parse(data)
+      } catch {
+        continue
+      }
+
+      const delta = json?.choices?.[0]?.delta
+
+      if (delta?.content) {
+        content += delta.content
+        onContent(delta.content)
+      }
+
+      if (delta?.tool_calls) {
+        for (const toolCall of delta.tool_calls) {
+          const index = toolCall.index ?? 0
+          if (!toolCallsByIndex[index]) toolCallsByIndex[index] = { arguments: "" }
+          if (toolCall.id) toolCallsByIndex[index].id = toolCall.id
+          if (toolCall.function?.name) toolCallsByIndex[index].name = toolCall.function.name
+          if (toolCall.function?.arguments) toolCallsByIndex[index].arguments += toolCall.function.arguments
+        }
+      }
+    }
+  }
+
+  const toolCalls = Object.values(toolCallsByIndex).filter((tc) => tc.id && tc.name)
+  return { content, toolCalls, ok: true }
 }
 
 export async function POST(request: Request) {
@@ -393,39 +460,61 @@ export async function POST(request: Request) {
 
   const conversation: unknown[] = [{ role: "system", content: buildSystemPrompt() }, ...parsed.data.messages]
 
-  for (let iteration = 0; iteration < 4; iteration++) {
-    const response = await callGroq(apiKey, conversation)
+  const encoder = new TextEncoder()
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        for (let iteration = 0; iteration < 4; iteration++) {
+          const result = await streamGroqRound(apiKey, conversation, (text) => {
+            controller.enqueue(encoder.encode(text))
+          })
 
-    if (!response.ok) {
-      return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
-    }
+          if (!result.ok) {
+            if (!result.content && result.toolCalls.length === 0) {
+              controller.enqueue(encoder.encode("Sorry, I couldn't respond right now. Please try again in a moment."))
+            }
+            controller.close()
+            return
+          }
 
-    const data = await response.json()
-    const message = data?.choices?.[0]?.message
+          if (result.toolCalls.length === 0) {
+            if (!result.content) {
+              controller.enqueue(encoder.encode("Sorry, I couldn't respond right now. Please try again in a moment."))
+            }
+            controller.close()
+            return
+          }
 
-    if (!message) {
-      return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
-    }
+          conversation.push({
+            role: "assistant",
+            content: result.content || null,
+            tool_calls: result.toolCalls.map((tc) => ({
+              id: tc.id,
+              type: "function",
+              function: { name: tc.name, arguments: tc.arguments },
+            })),
+          })
 
-    if (!message.tool_calls?.length) {
-      if (!message.content) {
-        return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+          for (const toolCall of result.toolCalls) {
+            const args = JSON.parse(toolCall.arguments || "{}")
+            const toolResult = await runTool(toolCall.name!, args)
+            conversation.push({
+              role: "tool",
+              tool_call_id: toolCall.id,
+              content: JSON.stringify(toolResult),
+            })
+          }
+        }
+
+        controller.enqueue(encoder.encode("Sorry, I couldn't finish responding. Please try again."))
+        controller.close()
+      } catch (error) {
+        console.error("Chat stream error:", error)
+        controller.enqueue(encoder.encode("Sorry, something went wrong. Please try again."))
+        controller.close()
       }
-      return NextResponse.json({ reply: message.content })
-    }
+    },
+  })
 
-    conversation.push(message)
-
-    for (const toolCall of message.tool_calls) {
-      const args = JSON.parse(toolCall.function.arguments || "{}")
-      const result = await runTool(toolCall.function.name, args)
-      conversation.push({
-        role: "tool",
-        tool_call_id: toolCall.id,
-        content: JSON.stringify(result),
-      })
-    }
-  }
-
-  return NextResponse.json({ error: "The chatbot could not respond right now." }, { status: 502 })
+  return new Response(stream, { headers: { "Content-Type": "text/plain; charset=utf-8" } })
 }
