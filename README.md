@@ -1,4 +1,4 @@
-# April Suarnaba Portfolio
+# April Suarnaba
 
 Personal portfolio site for April Suarnaba, an AI engineer. It showcases experience, projects, a contact form, and an AI chatbot that can answer visitor questions and book a call directly on April's calendar, built as a modern, animated, single-page-style Next.js site.
 
