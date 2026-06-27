@@ -1,6 +1,6 @@
 # April Suarnaba
 
-Personal portfolio site for April Suarnaba, an AI engineer. It showcases experience, projects, a contact form, and an AI chatbot that can answer visitor questions and book a call directly on April's calendar, built as a modern, animated, single-page-style Next.js site.
+Personal portfolio site for me, I am an AI engineer. It showcases experience, projects, a contact form, and an AI chatbot that can answer visitor questions and book a call directly on my calendar, built as a modern, animated, single-page-style Next.js site.
 
 ## Tech Stack
 
