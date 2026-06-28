@@ -116,7 +116,7 @@ export default function AboutSection() {
 
           <StaggerItem>
             <div>
-              <h2 className="text-lg font-semibold tracking-tight md:text-xl">Hi, I'm April.</h2>
+              <h1 className="text-lg font-semibold tracking-tight md:text-xl">Hi, I'm April.</h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
                 I started coding when I was 13 with simple HTML and CSS pages, mostly out of curiosity. Then JavaScript
                 showed me that websites could move, respond, and feel alive - and I was hooked.

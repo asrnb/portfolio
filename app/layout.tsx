@@ -40,14 +40,12 @@ export const metadata: Metadata = {
     description,
     url: siteUrl,
     siteName: "April Suarnaba",
-    images: ["/april.jpg"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/april.jpg"],
   },
 }
 

@@ -7,10 +7,38 @@ import ScrollProgress from "@/components/scroll-progress"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { SectionFallback } from "@/components/section-fallback"
 import { Loader2 } from "lucide-react"
+import { projects, hasRealImage } from "@/lib/projects"
+
+const siteUrl = "https://asrnb.vercel.app"
 
 export const metadata: Metadata = {
   title: "Projects | April Suarnaba",
   description: "Selected software, AI automation, and design projects by April Suarnaba.",
+  alternates: {
+    canonical: "/work",
+  },
+}
+
+const projectsJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: projects.map((project, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "CreativeWork",
+      name: project.title,
+      description: project.longDescription,
+      url: project.demoUrl || project.githubUrl || `${siteUrl}/work`,
+      image: hasRealImage(project.imageUrl) ? `${siteUrl}${project.imageUrl}` : undefined,
+      dateCreated: project.completed,
+      keywords: project.technologies.join(", "),
+      creator: {
+        "@type": "Person",
+        name: "April Suarnaba",
+      },
+    },
+  })),
 }
 
 function LoadingSection({ name }: { name: string }) {
@@ -25,6 +53,10 @@ function LoadingSection({ name }: { name: string }) {
 export default function WorkPage() {
   return (
     <main className="min-h-screen pt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsJsonLd) }}
+      />
       <ScrollProgress />
       <FloatingNav />
 
