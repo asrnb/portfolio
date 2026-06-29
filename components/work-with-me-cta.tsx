@@ -27,7 +27,7 @@ export default function WorkWithMeCta() {
         <ScrollReveal delay={0.1}>
           <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Work with me</h2>
           <p className="mt-3 text-base leading-7 text-muted-foreground md:text-lg">
-            Got a project, automation, or workflow idea? I'd love to hear about it.
+            Got a project, automation, or workflow idea? I&apos;d love to hear about it.
           </p>
         </ScrollReveal>
 
