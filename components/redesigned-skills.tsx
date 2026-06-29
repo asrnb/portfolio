@@ -11,6 +11,8 @@ interface TechItem {
   name: string
   slug: string
   fallback?: string
+  // Some brands (OpenAI, C#, Canva) aren't in Simple Icons, so we ship a local SVG.
+  local?: string
 }
 
 const techCategories = [
@@ -23,7 +25,7 @@ const techCategories = [
 ]
 
 const techStack: TechItem[] = [
-  { name: "OpenAI", slug: "openai", fallback: "AI" },
+  { name: "OpenAI", slug: "openai", local: "/brand/openai.svg", fallback: "AI" },
   { name: "Claude", slug: "anthropic" },
   { name: "Gemini", slug: "googlegemini" },
   { name: "Cursor", slug: "cursor" },
@@ -31,7 +33,7 @@ const techStack: TechItem[] = [
   { name: "Python", slug: "python" },
   { name: "Dart", slug: "dart" },
   { name: "C++", slug: "cplusplus" },
-  { name: "C#", slug: "csharp", fallback: "C#" },
+  { name: "C#", slug: "csharp", local: "/brand/csharp.svg", fallback: "C#" },
   { name: "SQL", slug: "sqlite" },
   { name: "Next.js", slug: "nextdotjs" },
   { name: "Vue", slug: "vuedotjs" },
@@ -52,7 +54,7 @@ const techStack: TechItem[] = [
   { name: "Node.js", slug: "nodedotjs" },
   { name: "HubSpot", slug: "hubspot" },
   { name: "Figma", slug: "figma" },
-  { name: "Canva", slug: "canva", fallback: "C" },
+  { name: "Canva", slug: "canva", local: "/brand/canva.svg", fallback: "C" },
   { name: "GitHub", slug: "github" },
   { name: "Git", slug: "git" },
   { name: "N8N", slug: "n8n" },
@@ -74,6 +76,23 @@ function TechLogo({ item, iconHex }: { item: TechItem; iconHex: string }) {
         >
           {item.fallback ?? item.name.slice(0, 2)}
         </span>
+      ) : item.local ? (
+        <span
+          role="img"
+          aria-label={`${item.name} logo`}
+          className="h-7 w-7"
+          style={{
+            backgroundColor: `#${iconHex}`,
+            WebkitMaskImage: `url(${item.local})`,
+            maskImage: `url(${item.local})`,
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+            WebkitMaskPosition: "center",
+            maskPosition: "center",
+            WebkitMaskSize: "contain",
+            maskSize: "contain",
+          }}
+        />
       ) : (
         <img
           src={`https://cdn.simpleicons.org/${item.slug}/${iconHex}`}
