@@ -30,7 +30,7 @@ export const projects = [
       "A full-stack business website demo built to showcase how AI chat assistants and appointment booking workflows can be integrated into a modern service business site. The demo features service listings, team bios, patient testimonials, and an embedded AI chat widget that handles customer inquiries and books appointments — demonstrating a production-ready pattern for AI-enhanced lead capture.",
     technologies: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Tailwind CSS"],
     imageUrl: "/placeholder.svg?height=600&width=800",
-    demoUrl: "https://lead-point-chi.vercel.app",
+    demoUrl: "https://lead-point-asrnb.vercel.app/",
     githubUrl: "https://github.com/asrnb/lead-point",
     featured: false,
     completed: "2026",
