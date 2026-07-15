@@ -137,8 +137,8 @@ Tech stack:
 - Design / workflow: Figma, Canva, GitHub, Git, n8n, Semrush
 
 Projects:
-- SEO & AI Grader — full-stack SEO dashboard (Vue 3, Vite, Tailwind, Express) pulling live data from GA4, Search Console, and Ahrefs with PDF export.
-- HubSpot LinkedIn Automation Workflows — CRM automation using HubSpot APIs, Node.js, and Lambda for LinkedIn outreach, persona detection, and tagging.
+- run.ilo — community directory of runs, fun runs, and marathons in Iloilo City built with Next.js, Supabase, and Leaflet/OpenStreetMap; includes admin review workflow and demo mode.
+- Lead Point — full-stack AI-powered business website demo with embedded chatbot and appointment booking, built with Next.js and Supabase to showcase AI-enhanced lead capture patterns.
 - Computer Vision Dress Code Compliance — thesis project detecting dress code violations using Python, Flask, YOLOv8, OpenCV, SQLite.
 - Sentiment Analyzer Web Application — real-time NLP sentiment analysis app (Python, Flask, NLP, HTML/CSS/JS).
 - BizGen GPT — Streamlit app using OpenAI GPT to generate business ideas for entrepreneurs.
