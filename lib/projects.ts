@@ -51,7 +51,7 @@ export const projects = [
     longDescription:
       "A computer vision-based system for detecting dress code compliance among WVSU students. The thesis project used Python, Flask, YOLOv8, OpenCV, and SQLite, with April leading ideation, topic selection, and front-end development.",
     technologies: ["Python", "Flask", "YOLOv8", "OpenCV", "SQLite"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
+    imageUrl: "/projects/thesis-dress-code-compliance.jpg",
     demoUrl: "",
     githubUrl: "https://github.com/asrnb",
     featured: false,
