@@ -139,8 +139,9 @@ export const projects = [
     longDescription:
       "An application UI/UX design project called Luminance, designed end-to-end in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
     technologies: ["Figma", "UI/UX Design", "Prototyping"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    demoUrl: "https://www.figma.com/proto/2hdvz905hpaX5xcBkUAykF/Luminance--UI-UX-?node-id=1-4&t=g5Iveeu5jCV242C8-1",
+    imageUrl: "/luminance.png",
+    demoUrl:
+      "https://www.figma.com/proto/75s1qguqruFXB3p5fV5Ooa/Group-4-Luminance---Suarnaba---de-Leon---Calinagan---Montalban---Jagunap?node-id=1-4",
     githubUrl: "",
     featured: false,
     completed: "2025",
