@@ -96,7 +96,7 @@ export const projects = [
       "A Streamlit app built for CCS 229 that uses OpenAI's GPT model to help entrepreneurs generate business ideas. Users pick an industry (Technology, Healthcare, Education, Retail, Finance, or Food & Beverage), a target audience, and unique selling points, and the app generates tailored, ready-to-use business concepts for instant feedback or team brainstorming.",
     technologies: ["Python", "Streamlit", "OpenAI", "Prompt Engineering"],
     imageUrl: "/projects/bizgen-gpt-cover.png",
-    demoUrl: "",
+    demoUrl: "https://ccs229-finalproject-fehdbadqzl3hwir3ehqp4q.streamlit.app/",
     githubUrl: "https://github.com/asrnb/ccs229-finalproject",
     featured: false,
     completed: "2024",
