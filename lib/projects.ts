@@ -160,8 +160,9 @@ export const projects = [
     longDescription:
       "An application UI/UX design project called Sa-kai, designed in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
     technologies: ["Figma", "UI/UX Design", "Prototyping"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    demoUrl: "https://www.figma.com/proto/EBbrqTIt5OCmmTp9RXDALV/Sa-kai?node-id=3-652&starting-point-node-id=1%3A4",
+    imageUrl: "/sakaii.png",
+    demoUrl:
+      "https://www.figma.com/proto/EBbrqTIt5OCmmTp9RXDALV?node-id=0-1&fuid=949944370631712677&prev-plan-id=949944380634869785&prev-plan-type=team&prev-selected-view=recentsAndSharing&prev-tab=recently-viewed",
     githubUrl: "",
     featured: false,
     completed: "2025",
@@ -181,9 +182,9 @@ export const projects = [
     longDescription:
       "An application UI/UX design project called TuklaSEEn, designed in Figma with a clickable interactive prototype covering the app's core screens and user flow.",
     technologies: ["Figma", "UI/UX Design", "Prototyping"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
+    imageUrl: "/tuklaseen.png",
     demoUrl:
-      "https://www.figma.com/proto/LZM9lghc147nd1RaHMoBwB/TuklaSEEn-Prototype?node-id=11-130&t=vWAL2a06wzsdVRds-1&starting-point-node-id=11%3A130",
+      "https://www.figma.com/proto/LZM9lghc147nd1RaHMoBwB/TuklaSEEn-Prototype?node-id=0%3A1&fuid=949944370631712677",
     githubUrl: "",
     featured: false,
     completed: "2025",
