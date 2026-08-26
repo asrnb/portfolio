@@ -51,8 +51,8 @@ export const projects = [
     longDescription:
       "A focused event check-in system built with Next.js and Supabase. Attendees enter a phone number to check in, returning attendees are matched from the database, and new attendees can register with their name before being checked in. The app prevents duplicate check-ins, keeps a live unique attendee count, validates names and phone numbers, and wraps the flow in a responsive neo-brutalist interface for fast on-site event use.",
     technologies: ["Next.js", "React", "Supabase", "JavaScript", "CSS Modules"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    demoUrl: "",
+    imageUrl: "/attend-ease.png",
+    demoUrl: "https://attend-ease-vert.vercel.app/",
     githubUrl: "https://github.com/asrnb/attend-ease",
     featured: false,
     completed: "2026",
