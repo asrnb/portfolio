@@ -44,6 +44,28 @@ export const projects = [
     ],
   },
   {
+    id: 16,
+    title: "AttendEase",
+    category: "software",
+    description: "Event attendee check-in app with registration and duplicate check-in prevention.",
+    longDescription:
+      "A focused event check-in system built with Next.js and Supabase. Attendees enter a phone number to check in, returning attendees are matched from the database, and new attendees can register with their name before being checked in. The app prevents duplicate check-ins, keeps a live unique attendee count, validates names and phone numbers, and wraps the flow in a responsive neo-brutalist interface for fast on-site event use.",
+    technologies: ["Next.js", "React", "Supabase", "JavaScript", "CSS Modules"],
+    imageUrl: "/placeholder.svg?height=600&width=800",
+    demoUrl: "",
+    githubUrl: "https://github.com/asrnb/attend-ease",
+    featured: false,
+    completed: "2026",
+    teamSize: 1,
+    difficulty: 3,
+    achievements: [
+      "Built a phone-based event check-in flow with Next.js",
+      "Connected Supabase tables for attendees and check-in records",
+      "Prevented duplicate attendee check-ins with database lookups",
+      "Added registration, validation, cooldown handling, and a live unique check-in count",
+    ],
+  },
+  {
     id: 4,
     title: "Computer Vision Dress Code Compliance",
     category: "ai",
