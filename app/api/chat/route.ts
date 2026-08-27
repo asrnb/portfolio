@@ -139,6 +139,7 @@ Tech stack:
 Projects:
 - run.ilo — community directory of runs, fun runs, and marathons in Iloilo City built with Next.js, Supabase, and Leaflet/OpenStreetMap; includes admin review workflow and demo mode.
 - Lead Point — full-stack AI-powered business website demo with embedded chatbot and appointment booking, built with Next.js and Supabase to showcase AI-enhanced lead capture patterns.
+- ContentFlow AI — authenticated AI content generation SaaS built with Next.js, Supabase, Inngest, Anthropic, and Zod; queues async jobs, validates structured output, tracks retries, and shows execution timelines.
 - AttendEase — event attendee check-in app built with Next.js and Supabase; includes phone lookup, new attendee registration, duplicate check-in prevention, validation, and live unique check-in counts.
 - Computer Vision Dress Code Compliance — thesis project detecting dress code violations using Python, Flask, YOLOv8, OpenCV, SQLite.
 - Sentiment Analyzer Web Application — real-time NLP sentiment analysis app (Python, Flask, NLP, HTML/CSS/JS).

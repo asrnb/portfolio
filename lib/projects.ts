@@ -44,6 +44,28 @@ export const projects = [
     ],
   },
   {
+    id: 17,
+    title: "ContentFlow AI",
+    category: "ai",
+    description: "Asynchronous AI content generation SaaS with dashboard observability.",
+    longDescription:
+      "A production-oriented SaaS app for authenticated users to queue AI content generation jobs and inspect the full asynchronous lifecycle from request to result. Built with Next.js, Supabase Auth and PostgreSQL, Row Level Security, Inngest background jobs, Anthropic structured output, Zod validation, retry handling, execution timelines, and automated test coverage.",
+    technologies: ["Next.js", "TypeScript", "Supabase", "Inngest", "Anthropic", "Zod", "Vitest"],
+    imageUrl: "/placeholder.svg?height=600&width=800",
+    demoUrl: "",
+    githubUrl: "https://github.com/asrnb/callflow-ai",
+    featured: false,
+    completed: "2026",
+    teamSize: 1,
+    difficulty: 4,
+    achievements: [
+      "Built an authenticated dashboard for queuing AI content generation jobs",
+      "Implemented asynchronous processing with Inngest and persisted execution events",
+      "Secured user-owned data with Supabase Auth, PostgreSQL, and Row Level Security",
+      "Validated structured Anthropic output with Zod and covered core flows with Vitest and Playwright",
+    ],
+  },
+  {
     id: 16,
     title: "AttendEase",
     category: "software",
