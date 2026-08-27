@@ -51,7 +51,7 @@ export const projects = [
     longDescription:
       "A production-oriented SaaS app for authenticated users to queue AI content generation jobs and inspect the full asynchronous lifecycle from request to result. Built with Next.js, Supabase Auth and PostgreSQL, Row Level Security, Inngest background jobs, Anthropic structured output, Zod validation, retry handling, execution timelines, and automated test coverage.",
     technologies: ["Next.js", "TypeScript", "Supabase", "Inngest", "Anthropic", "Zod", "Vitest"],
-    imageUrl: "/placeholder.svg?height=600&width=800",
+    imageUrl: "/contentflow-ai-showcase.png",
     demoUrl: "",
     githubUrl: "https://github.com/asrnb/callflow-ai",
     featured: false,
